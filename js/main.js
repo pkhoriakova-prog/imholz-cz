@@ -250,9 +250,50 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- directions ---- */
+  /* the list of directions is folded into a field-like button; it opens a panel and, closed, shows what is chosen */
+  var pickWrap = $('.bb-form__pick');
+  var pickToggle = $('.bb-picker__toggle');
+  var pickLabel = $('.bb-picker__label');
+  var pickSum = $('.bb-picker__summary');
+
+  function setPanel(open) {
+    pickWrap.classList.toggle('bb-picker--open', open);
+    pickToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function plural(n) { return n === 1 ? 'oblast' : (n >= 2 && n <= 4 ? 'oblasti' : 'oblastí'); }
+
+  function renderPicker(out) {
+    var n = out.length + (advice.checked ? 1 : 0);
+    pickLabel.textContent = n ? 'Vybráno: ' + n + ' ' + plural(n) : 'Vyberte, co vás zajímá';
+    pickToggle.classList.toggle('is-filled', n > 0);
+    $$('.bb-picker__clear').forEach(function (b) { b.hidden = n === 0; });
+    pickSum.textContent = '';
+    var lines = [];
+    if (advice.checked) lines.push('Poradit s výběrem');
+    out.forEach(function (o) { lines.push(o.head + (o.parts.length ? ': ' + o.parts.join('; ') : '')); });
+    lines.forEach(function (t) {
+      var l = document.createElement('span');
+      l.textContent = t;
+      pickSum.appendChild(l);
+    });
+  }
+
+  function clearAll() {
+    $$('.bb-pick__main').forEach(function (c) { c.checked = false; });
+    $$('.bb-chip input').forEach(function (c) { c.checked = false; });
+    advice.checked = false;
+    picks.forEach(function (p) { setOpen(p, false); });
+    choice();
+  }
+
+  function syncWide(pick) {
+    pick.classList.toggle('bb-pick--wide', pick.classList.contains('bb-pick--open') || !!$('.bb-pick__summary', pick).textContent);
+  }
   function setOpen(pick, open) {
     pick.classList.toggle('bb-pick--open', open);
     $('.bb-pick__toggle', pick).setAttribute('aria-expanded', open ? 'true' : 'false');
+    syncWide(pick);
   }
   function openOnly(pick) { picks.forEach(function (p) { setOpen(p, p === pick); }); }
 
@@ -278,11 +319,13 @@
         l.textContent = p;
         sum.appendChild(l);
       });
+      syncWide(pick);
       if (main.checked) out.push({ head: main.value, parts: parts, names: names });
     });
     var lines = out.map(function (o) { return o.head + (o.parts.length ? ' [' + o.parts.join('; ') + ']' : ''); });
     if (advice.checked) lines.unshift(advice.value);
     hidden.value = lines.join(' | ');
+    renderPicker(out);
     return out;
   }
 
@@ -370,7 +413,10 @@
   });
 
   $('.bb-pick-list').classList.add('bb-pick-list--live');
-  $('.bb-steps').classList.add('bb-steps--live');
+  pickWrap.classList.add('bb-picker--live');
+  pickToggle.addEventListener('click', function () { setPanel(!pickWrap.classList.contains('bb-picker--open')); });
+  $('.bb-picker__close').addEventListener('click', function () { setPanel(false); pickToggle.focus(); });
+  $$('.bb-picker__clear').forEach(function (b) { b.addEventListener('click', clearAll); });
 
   choice();
 })();

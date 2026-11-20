@@ -2170,13 +2170,6 @@ textarea.bb-field__input{ resize:vertical; min-height:5.2em; }
 .bb-field__input{ border-color:rgba(18,18,18,.18); }
 
 /* the request: a little larger, as it is the working part of the page */
-#poptavka .bb-step__title{ font-size:clamp(18px, 1.25vw, 25px); }
-#poptavka .bb-field__label{ font-size:clamp(13px, .85vw, 16px); }
-#poptavka .bb-field__input{ font-size:clamp(15px, .98vw, 19px); }
-#poptavka .bb-pick__name{ font-size:clamp(15px, 1vw, 19px); }
-#poptavka .bb-form__help{ font-size:clamp(13px, .85vw, 16px); }
-#poptavka .bb-chip span{ font-size:clamp(13px, .85vw, 16px); }
-#poptavka .bb-consent{ font-size:clamp(13px, .82vw, 15px); }
 
 @media (max-width:1150px){
   .bb-contact__facts{ grid-column:1; padding-right:0; }
@@ -2201,3 +2194,515 @@ textarea.bb-field__input{ resize:vertical; min-height:5.2em; }
 .bb-pick__advice{ padding-top:clamp(7px, .6vw, 11px); padding-bottom:clamp(7px, .6vw, 11px); }
 .bb-pick__items{ padding-bottom:clamp(10px, .9vw, 16px); }
 .bb-form__final{ margin-top:clamp(22px, 2.2vw, 40px); padding-top:0; }
+
+/* --- Request: the directions sit in two columns, a direction that is open or has chosen items takes the full row --- */
+.bb-pick-list{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  column-gap:clamp(20px, 3vw, 56px);
+}
+.bb-pick__advice-item{ list-style:none; }
+.bb-pick__advice{ display:grid; padding-left:0; padding-right:0; margin:0; }
+.bb-pick--wide{ grid-column:1 / -1; }
+@media (max-width:760px){
+  .bb-pick-list{ grid-template-columns:minmax(0, 1fr); }
+}
+
+/* --- Request: one column again; the rows sit together in one white block, tighter, and step 2 is closer to step 1 --- */
+.bb-pick-list{
+  display:block;
+  background:var(--paper);
+  border:1px solid rgba(18, 18, 18, .12);
+  padding:clamp(4px, .4vw, 8px) clamp(14px, 1.3vw, 22px);
+}
+.bb-pick--wide{ grid-column:auto; }
+.bb-pick__head,
+.bb-pick__advice{ padding-top:clamp(7px, .6vw, 10px); padding-bottom:clamp(7px, .6vw, 10px); }
+.bb-pick__items{ padding-bottom:clamp(8px, .7vw, 12px); }
+.bb-step__body{ padding-bottom:0; }
+.bb-step + .bb-step{ margin-top:clamp(18px, 1.7vw, 30px); }
+.bb-form__help{ margin-bottom:clamp(8px, .7vw, 12px); }
+.bb-step__head{ padding-bottom:clamp(8px, .8vw, 14px); }
+.bb-form__final{ margin-top:clamp(18px, 1.7vw, 30px); }
+
+/* --- Request: the list of directions folded into a field-like button -------------- */
+.bb-picker__toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+  margin:0;
+  padding:.7em .85em;
+  border:1px solid rgba(18,18,18,.18);
+  border-radius:0;
+  background:var(--paper);
+  color:var(--ink-muted);
+  font:inherit;
+  font-size:clamp(14px, .88vw, 17px);
+  line-height:1.3;
+  text-align:left;
+  cursor:pointer;
+  transition:border-color .2s ease;
+}
+.bb-picker__toggle:hover{ border-color:rgba(18,18,18,.38); }
+.bb-picker__toggle:focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
+.bb-picker__toggle.is-filled{ color:var(--ink); }
+.bb-picker__chev{
+  flex:0 0 auto;
+  width:.6em;
+  height:.6em;
+  border-right:1.5px solid var(--ink);
+  border-bottom:1.5px solid var(--ink);
+  transform:rotate(45deg) translate(-15%, -15%);
+  transition:transform .25s ease;
+}
+.bb-picker--open .bb-picker__chev{ transform:rotate(-135deg) translate(-15%, -15%); }
+.bb-picker__summary span{
+  display:block;
+  margin-top:.35em;
+  color:var(--green);
+  font-size:clamp(12px, .8vw, 15px);
+  line-height:1.4;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bb-picker__summary:empty{ display:none; }
+.bb-picker__panel{ margin-top:clamp(8px, .7vw, 12px); }
+.bb-picker__done{ margin-top:clamp(10px, 1vw, 16px); }
+
+/* script on: the panel is folded until the button is pressed; without script the list is simply shown */
+.bb-picker__toggle,
+.bb-picker__summary,
+.bb-picker__done{ display:none; }
+.bb-picker--live .bb-picker__toggle{ display:flex; }
+.bb-picker--live .bb-picker__summary:not(:empty){ display:block; }
+.bb-picker--live .bb-picker__panel{ display:none; }
+.bb-picker--live.bb-picker--open .bb-picker__panel{ display:block; }
+.bb-picker--live.bb-picker--open .bb-picker__done{ display:block; }
+.bb-picker--live.bb-picker--open .bb-picker__summary{ display:none; }
+.bb-picker--live .bb-form__help{ margin-bottom:clamp(8px, .7vw, 12px); }
+
+/* --- Request: "clear the choice" and the numbers as in the Service Cycle of imholz.at (01, 02 in rings) --- */
+.bb-picker__clear{
+  margin:0;
+  padding:0;
+  border:0;
+  background:none;
+  color:var(--ink-muted);
+  font:inherit;
+  font-size:clamp(12px, .8vw, 15px);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  cursor:pointer;
+}
+.bb-picker__clear:hover,
+.bb-picker__clear:focus-visible{ color:var(--green); }
+.bb-picker__clear[hidden]{ display:none; }
+.bb-picker__clear--outside{ display:none; margin-top:.6em; }
+.bb-picker--live .bb-picker__clear--outside:not([hidden]){ display:inline-block; }
+.bb-picker--open .bb-picker__clear--outside{ display:none !important; }
+.bb-picker--live.bb-picker--open .bb-picker__done{ display:flex; align-items:center; gap:clamp(16px, 1.6vw, 28px); }
+
+.bb-step__head{ column-gap:clamp(14px, 1.4vw, 28px); }
+.bb-step__no{
+  --sol-no:clamp(30px, 2.4vw, 46px);
+  width:var(--sol-no);
+  height:var(--sol-no);
+  font-size:clamp(10px, .6vw, 13px);
+  font-weight:600;
+  letter-spacing:.1em;
+}
+
+/* the contact facts: lines no wider than the facts of the founder block on imholz.at (24 widths of the body text) */
+.bb-contact__facts{ max-width:calc(24 * var(--lede-fs)); }
+
+/* =========================================================================
+   Request: one form, no steps. Fields set the way the page sets its small
+   text: a tracked, quiet label above a flat white box; one green line under
+   the field in focus; the same field for the list of directions.
+   ========================================================================= */
+.bb-form{ display:grid; gap:clamp(18px, 1.7vw, 30px); }
+.bb-form__grid{ gap:clamp(18px, 1.7vw, 30px) clamp(16px, 1.6vw, 28px); }
+
+.bb-field{ display:flex; flex-direction:column; gap:8px; min-width:0; }
+.bb-field__label,
+fieldset.bb-form__pick > legend{
+  padding:0;
+  color:var(--ink-muted);
+  font-size:clamp(11px, .72vw, 13px);
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  line-height:1.3;
+}
+fieldset.bb-form__pick > legend{ margin-bottom:8px; }
+.bb-field__req{ color:var(--green); }
+.bb-form__hint{ letter-spacing:0; text-transform:none; font-size:1.05em; opacity:.85; }
+
+.bb-field__input,
+.bb-picker__toggle{
+  min-height:3.1em;
+  padding:.8em 1em;
+  border:1px solid rgba(18, 18, 18, .16);
+  background:var(--paper);
+  font-size:clamp(15px, .98vw, 18px);
+  line-height:1.3;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+textarea.bb-field__input{ min-height:6.4em; }
+.bb-field__input::placeholder{ color:rgba(18, 18, 18, .4); }
+.bb-field__input:hover,
+.bb-picker__toggle:hover{ border-color:rgba(18, 18, 18, .34); }
+.bb-field__input:focus,
+.bb-picker__toggle:focus-visible,
+.bb-picker--open .bb-picker__toggle{
+  outline:none;
+  border-color:var(--green);
+  box-shadow:inset 0 -2px 0 var(--green);
+}
+.bb-field__input[aria-invalid="true"]{ border-color:#a33a2a; box-shadow:inset 0 -2px 0 #a33a2a; }
+.bb-field__error::before{ content:"! "; font-weight:700; }
+
+/* the list of directions as a field of the same family */
+.bb-picker__toggle{ color:rgba(18, 18, 18, .55); }
+.bb-picker__toggle.is-filled{ color:var(--ink); }
+.bb-picker__summary span{ margin-top:.5em; }
+.bb-picker__close{
+  padding:.8em 1.5em;
+  border:1px solid var(--green);
+  background:transparent;
+  color:var(--green);
+  font:inherit;
+  font-size:clamp(14px, .9vw, 17px);
+  font-weight:600;
+  cursor:pointer;
+  transition:background-color .25s ease, color .25s ease;
+}
+.bb-picker__close:hover,
+.bb-picker__close:focus-visible{ background:var(--green); color:var(--paper); }
+
+/* the foot of the form */
+.bb-form__final{ margin-top:clamp(4px, .4vw, 8px); padding-top:0; gap:clamp(14px, 1.3vw, 22px); }
+
+/* =========================================================================
+   Request: the form on a plate with the striped ground, and tighter tiles
+   ========================================================================= */
+.bb-form{
+  margin:var(--gap-block-media) 0 0 var(--rule-inset);
+  padding:clamp(20px, 2.2vw, 40px);
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(18, 18, 18, .026) 0 1px,
+      transparent 1px 11px),
+    var(--paper);
+  border:1px solid var(--rule);
+}
+@media (max-width:1150px){
+  .bb-form{ margin-left:0; }
+}
+@media (max-width:640px){
+  .bb-form{ padding:18px 16px; }
+}
+
+/* tiles and rows close together */
+.bb-chips{ gap:6px; }
+.bb-pick__group + .bb-pick__group{ margin-top:12px; }
+.bb-pick__group-title{ margin:0 0 6px; }
+.bb-pick__items{ padding-bottom:8px; }
+.bb-pick-list{ padding:2px clamp(12px, 1.1vw, 18px); }
+.bb-pick__head,
+.bb-pick__advice{ padding-top:5px; padding-bottom:5px; }
+.bb-pick__summary{ margin-bottom:6px; }
+.bb-chip span{ padding:.38em .8em; }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick__head,
+  .bb-pick__advice{ padding-top:6px; padding-bottom:6px; }
+  .bb-chip span{ min-height:40px; }
+}
+
+/* =========================================================================
+   Request form: every distance is one of the spacing tokens of the sheet
+     label -> field ........ --gap-label-title   (the label names the field)
+     field -> field ........ --gap-para          (one voice continuing)
+     block -> block ........ --gap-title-text    (a new group begins)
+     last field -> action .. --gap-text-link     (the copy ended, an action begins)
+     plate edge ............ --gap-title-text
+   and the labels are the running-head label of the sheet.
+   ========================================================================= */
+.bb-form{
+  margin:var(--gap-block-media) 0 0 var(--rule-inset);
+  padding:var(--gap-title-text);
+  gap:var(--gap-title-text);
+}
+.bb-form__grid{ gap:var(--gap-para) var(--gap-para); }
+.bb-field{ gap:var(--gap-label-title); }
+
+.bb-field__label,
+fieldset.bb-form__pick > legend{
+  font-size:var(--label-fs);
+  font-weight:400;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-muted);
+}
+fieldset.bb-form__pick > legend{ margin-bottom:var(--gap-label-title); }
+.bb-form__hint{ letter-spacing:0; text-transform:none; font-size:1.15em; }
+
+/* fields: compact, the type of the sheet */
+.bb-field__input,
+.bb-picker__toggle{
+  min-height:0;
+  padding:.7em .9em;
+  font-size:clamp(15px, 1vw, 18px);
+}
+textarea.bb-field__input{ min-height:5.4em; }
+
+/* the list of directions */
+.bb-picker__panel{ margin-top:var(--gap-label-title); }
+.bb-picker__summary span{ margin-top:var(--gap-label-title); }
+.bb-picker__done{ margin-top:var(--gap-para); }
+.bb-pick-list{ padding:0 var(--rule-inset); }
+.bb-pick__head,
+.bb-pick__advice{ padding-top:var(--gap-label-title); padding-bottom:var(--gap-label-title); }
+.bb-pick__items{ padding-bottom:var(--gap-label-title); }
+.bb-pick__group + .bb-pick__group{ margin-top:var(--gap-para); }
+.bb-pick__group-title{ margin-bottom:var(--gap-label-title); }
+.bb-chips{ gap:var(--gap-label-title); }
+.bb-chip span{ padding:.4em .85em; font-size:clamp(13px, .85vw, 16px); }
+.bb-pick__name{ font-size:clamp(15px, 1vw, 18px); }
+
+/* the foot */
+.bb-form__final{ gap:var(--gap-para); margin-top:0; }
+.bb-form__final .bb-form__actions{ margin-top:calc(var(--gap-text-link) - var(--gap-para)); }
+.bb-consent{ font-size:clamp(13px, .82vw, 15px); }
+
+@media (max-width:640px){
+  .bb-form{ padding:var(--gap-para); }
+}
+
+/* all the fields are one voice: the same distance between them; a larger one only before the foot */
+.bb-form{ gap:var(--gap-para); }
+.bb-field--message{ margin-top:0; }
+.bb-form__final{ margin-top:calc(var(--gap-title-text) - var(--gap-para)); }
+
+/* --- Certificates in the green panel: the ruled rows of "Standards & Certifications" (imholz.at) ------- */
+.bb-certs{ list-style:none; margin:var(--gap-para) 0 0; padding:0; }
+.bb-certs li{ border-top:1px solid color-mix(in srgb, currentColor 24%, transparent); }
+.bb-certs li:last-child{ border-bottom:1px solid color-mix(in srgb, currentColor 24%, transparent); }
+.bb-certs__row{
+  display:grid;
+  grid-template-columns:minmax(5.4em, 7em) minmax(0, 1fr) auto;
+  align-items:start;
+  column-gap:var(--gap-para);
+  padding:var(--gap-para) 0;
+  color:inherit;
+  text-decoration:none;
+}
+.bb-certs__code{
+  font-size:var(--label-fs);
+  font-weight:600;
+  letter-spacing:.12em;
+  line-height:1.6;
+  text-transform:uppercase;
+  opacity:.75;
+}
+.bb-certs__title{ display:block; font-size:clamp(15px, 1vw, 19px); font-weight:600; line-height:1.3; }
+.bb-certs__text{ display:block; margin-top:4px; font-size:var(--lede-fs); line-height:1.45; opacity:.8; }
+.bb-certs__arrow{
+  width:.9em;
+  height:.9em;
+  margin-top:.25em;
+  background:currentColor;
+  -webkit-mask:var(--arrow) center / contain no-repeat;
+  mask:var(--arrow) center / contain no-repeat;
+  transform:rotate(-45deg);
+  transition:transform .32s cubic-bezier(.2,.7,.25,1);
+  opacity:.8;
+}
+.bb-certs__row:hover .bb-certs__arrow,
+.bb-certs__row:focus-visible .bb-certs__arrow{ transform:rotate(0deg); }
+.bb-certs__row:hover .bb-certs__title,
+.bb-certs__row:focus-visible .bb-certs__title{ text-decoration:underline; text-underline-offset:3px; }
+.bb-solution-picker__panel-text .bb-link-underline{ margin-top:var(--gap-text-link); }
+@media (max-width:640px){
+  .bb-certs__row{ grid-template-columns:minmax(0, 1fr) auto; }
+  .bb-certs__code{ grid-column:1 / -1; }
+}
+
+/* the contacts: the facts of "Message from the Founder" on imholz.at, as they are there
+   (a rule above, a rule between the rows, none below; 24em of the page font) */
+.bb-contact__facts{
+  grid-column:1;
+  align-self:start;
+  display:grid;
+  grid-template-columns:minmax(0, 1fr);
+  margin:var(--gap-block-media) 0 0;
+  padding-right:0;
+  border-top:1px solid var(--hairline-soft);
+  border-bottom:0;
+  max-width:24em;
+}
+.bb-contact__facts > div{ padding:var(--gap-para) var(--rule-inset) var(--gap-para) 0; border-bottom:0; }
+.bb-contact__facts > div + div{ padding-left:0; border-left:0; border-top:1px solid var(--hairline-soft); }
+.bb-contact__facts dd{ text-wrap:balance; }
+@media (max-width:1150px){
+  .bb-contact__facts{ max-width:none; }
+}
+/* --- Request: the text inside the fields is the size of the page text, not larger ---------- */
+.bb-field__input,
+.bb-picker__toggle{ font-size:clamp(14px, .9vw, 16px); }
+.bb-field__input::placeholder{ font-size:inherit; color:rgba(18, 18, 18, .38); }
+.bb-pick__name{ font-size:clamp(14px, .9vw, 16px); font-weight:400; }
+.bb-pick__main:checked ~ .bb-pick__name,
+.bb-pick__check:checked ~ .bb-pick__name{ font-weight:500; }
+.bb-pick__box{ font-size:clamp(12px, .8vw, 15px); }
+.bb-pick__count{ font-size:var(--label-fs); }
+.bb-pick__summary{ font-size:clamp(12px, .78vw, 14px); }
+.bb-chip span{ font-size:clamp(12px, .8vw, 15px); padding:.38em .8em; }
+.bb-picker__summary span{ font-size:clamp(12px, .8vw, 14px); }
+.bb-consent{ font-size:clamp(12px, .78vw, 14px); }
+@media (max-width:640px){
+  .bb-field__input,
+  .bb-picker__toggle{ font-size:16px; }
+}
+
+/* --- Request: the opened list of directions, neater ----------------------------------------- */
+.bb-picker--open .bb-picker__toggle{ border-bottom-color:var(--green); }
+.bb-pick-list{
+  margin:0;
+  padding:var(--gap-label-title) var(--gap-para);
+  background:var(--paper);
+  border:1px solid rgba(18, 18, 18, .12);
+  border-top:0;
+}
+.bb-pick__head,
+.bb-pick__advice{ padding-top:7px; padding-bottom:7px; }
+.bb-pick__advice-item{ padding-bottom:var(--gap-label-title); margin-bottom:var(--gap-label-title); border-bottom:1px solid var(--hairline-soft); }
+.bb-pick__advice{ padding-top:2px; padding-bottom:2px; }
+.bb-pick__group-title{ margin:0 0 var(--gap-label-title); font-size:var(--label-fs); }
+.bb-picker__panel{ margin-top:0; }
+.bb-picker__done{ margin-top:var(--gap-para); }
+.bb-picker__close{ padding:.65em 1.3em; font-size:clamp(13px, .85vw, 15px); }
+
+/* the drawing: a little lower, and a little softer in colour */
+.bb-site-footer__art{ margin-top:clamp(12px, 2.4vw, 48px); }
+.bb-site-footer__drawing{ opacity:.84; filter:saturate(.9); }
+
+/* the drawing: a little higher than before, and a little brighter */
+.bb-site-footer__art{ margin-top:clamp(4px, 1vw, 20px); }
+.bb-site-footer__drawing{ opacity:.94; filter:saturate(1); }
+
+/* the drawing: a little higher still */
+.bb-site-footer__art{ margin-top:clamp(-14px, -1vw, -4px); }
+
+/* the drawing: a little brighter again */
+.bb-site-footer__drawing{ opacity:1; filter:saturate(1.08) brightness(1.06); }
+
+/* --- "Where We Work" of imholz.at: four tiles with a line drawing in the corner (here: the services) ---- */
+.bb-work-grid{
+  list-style:none;
+  margin:var(--gap-block-media) 0 0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:clamp(14px, 1.2vw, 26px);
+  margin-left:calc(33.3333% + var(--rule-inset));   /* set to the right, as in Project Types */
+}
+.bb-card--work{
+  overflow:hidden;
+  aspect-ratio:598 / 455;      /* the proportion of the photographs in Project Types */
+  align-items:flex-start;
+  --work-px:clamp(24px, 2.2vw, 46px);
+  --work-py:clamp(28px, 2.6vw, 54px);
+  padding:var(--work-py) var(--work-px);
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(18,18,18,.016) 0 1px,
+      transparent 1px 11px),
+    var(--paper-warm);
+  border:1px solid var(--hairline-soft);
+  color:var(--ink);
+}
+.bb-heading--work{
+  margin:0;
+  max-width:13em;              /* the name does not run the width of the card */
+  text-wrap:balance;
+  color:var(--green);
+  font-size:clamp(20px, 1.5vw, 32px);
+  font-weight:500;
+  line-height:1.2;
+  letter-spacing:-.012em;
+}
+.bb-copy--work{
+  margin:var(--gap-label-title) 0 0;
+  max-width:21em;              /* the text does not run the width of the card either */
+  color:var(--ink-muted);
+  font-size:var(--lede-fs);
+  line-height:1.5;
+}
+/* where the project stands: a dot and one line */
+.bb-card__status{
+  display:flex;
+  align-items:center;
+  gap:.7em;
+  margin:0 0 clamp(18px, 1.6vw, 32px);
+  color:var(--green);
+  font-size:clamp(10px, .62vw, 13px);
+  font-weight:600;
+  letter-spacing:.12em;
+  line-height:1;
+  text-transform:uppercase;
+}
+.bb-card__status::before{
+  content:"";
+  width:.65em;
+  height:.65em;
+  border-radius:50%;
+  background:var(--green);
+  animation:status-pulse 2s ease-out infinite;
+}
+/* the dot breathes: a soft ring leaves it and fades, while the search goes on */
+@keyframes status-pulse{
+  0%   { box-shadow:0 0 0 0 rgba(1,67,53,.45); opacity:1; }
+  70%  { box-shadow:0 0 0 .6em rgba(1,67,53,0); opacity:.55; }
+  100% { box-shadow:0 0 0 0 rgba(1,67,53,0); opacity:1; }
+}
+@media (prefers-reduced-motion:reduce){
+  .bb-card__status::before{ animation:none; }
+}
+.bb-card--work .bb-link-underline{ margin-top:auto; padding-top:var(--gap-text-link); color:var(--ink); }
+.bb-card--work .bb-link-underline:hover,
+.bb-card--work .bb-link-underline:focus-visible{ color:var(--green); }
+/* the building, trimmed to its own outline, stands in the right-hand lower
+   corner of the card; the text sits above it */
+.bb-card__art{
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:56%;
+  height:auto;
+  pointer-events:none;
+}
+.bb-card--work > :not(.bb-card__art){ position:relative; z-index:1; }
+
+/* on the widths where the building lies under the text, the card is raised so
+@media (max-width:1150px){
+  .bb-work-grid{ margin-left:0; }
+}
+@media (max-width:900px){
+  .bb-card--work{ aspect-ratio:auto; min-height:0; }
+  .bb-work-grid{ align-items:start; }
+  .bb-card__art{
+    position:static;
+    order:9;
+    width:58%;
+    max-width:none;
+    margin:8px calc(-1 * var(--work-px)) calc(-1 * var(--work-py)) auto;
+  }
+  .bb-copy--work{ margin-bottom:12px; }
+}
+@media (max-width:640px){
+  .bb-work-grid{ grid-template-columns:1fr; row-gap:clamp(14px, 3vw, 24px); }
+}
