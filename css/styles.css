@@ -1198,12 +1198,6 @@ body > main{
   .bb-hero__image{ aspect-ratio:3 / 2; }
 }
 
-/* hero: two actions side by side */
-.bb-hero__actions{
-  display:flex;
-  flex-wrap:wrap;
-  column-gap:clamp(24px, 2.4vw, 48px);
-}
 
 /* --- Block intro: running head on the margin, heading on the first rule ---
    The generic form of the intro used by In Numbers and For Whom. */
@@ -1221,16 +1215,7 @@ body > main{
   .bb-block__head{ margin-left:0; }
 }
 
-/* --- Catalogue cards: photograph, number, name, one line, arrow ---------- */
-.bb-catalog{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:clamp(14px, 1.15vw, 24px);
-  margin:var(--gap-block-media) 0 0;
-  padding:0;
-  list-style:none;
-}
-.bb-card--catalog{ height:100%; background:var(--paper); border:1px solid var(--rule); }
+/* --- Service cards: the audience card, made into a link ------------------ */
 .bb-card__link{
   display:flex;
   flex-direction:column;
@@ -1238,30 +1223,6 @@ body > main{
   color:inherit;
   text-decoration:none;
 }
-.bb-card__media{ overflow:hidden; aspect-ratio:4 / 3; background:var(--hairline-soft); }
-.bb-card__media img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform .6s cubic-bezier(.2,.7,.25,1);
-}
-.bb-card__link:hover .bb-card__media img,
-.bb-card__link:focus-visible .bb-card__media img{ transform:scale(1.035); }
-.bb-card__body{
-  display:flex;
-  flex-direction:column;
-  flex:1;
-  padding:clamp(20px, 1.7vw, 36px) clamp(20px, 1.7vw, 36px) clamp(24px, 2.2vw, 46px);
-}
-.bb-card__number{
-  margin:0;
-  color:var(--ink-muted);
-  font-size:var(--label-fs);
-  letter-spacing:.16em;
-}
-.bb-card--catalog .bb-heading--card{ margin-top:var(--gap-label-title); transition:color .25s ease; }
-.bb-card__link:hover .bb-heading--card,
-.bb-card__link:focus-visible .bb-heading--card{ color:var(--green); }
 .bb-card__more{
   margin-top:auto;
   padding-top:var(--gap-text-link);
@@ -1271,8 +1232,6 @@ body > main{
   letter-spacing:.055em;
   text-transform:uppercase;
 }
-
-/* --- Service cards: the audience card, made into a link ------------------ */
 .bb-card--service{ padding:0; min-height:0; }
 .bb-card--service .bb-card__link{
   padding:clamp(26px, 2.4vw, 50px) clamp(20px, 1.7vw, 36px) clamp(30px, 2.8vw, 58px);
@@ -1284,9 +1243,113 @@ body > main{
 .bb-card--service .bb-heading--card{ margin-top:0; }
 .bb-card--service .bb-card__more{ padding-top:clamp(20px, 1.8vw, 36px); }
 
+/* --- Catalogue: the "Project Types" frame of imholz.at ---------------------
+   Running head on the margin, heading and note on the first rule, the plates
+   in two columns to the right of it. Flat photographs, no boxes; each plate is
+   one link. Taken from .bb-project-intro / .bb-photo-grid / .bb-project. */
+.bb-projects::before{ content:none; }
+.bb-projects{ position:relative; overflow:hidden; }
+.bb-projects .bb-shell{ position:relative; z-index:1; }
+
+.bb-project-intro{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  align-items:start;
+}
+.bb-project-intro__head{ padding-left:var(--rule-inset); }
+.bb-heading--projects{
+  max-width:30ch;
+  text-wrap:balance;
+  font-size:var(--sec-fs);
+}
+.bb-project-intro__lede{ margin:var(--gap-title-text) 0 0; }
+
+.bb-photo-grid{
+  margin:var(--gap-block-media) 0 0 calc(33.3333% + var(--rule-inset));
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  column-gap:clamp(14px, 1.2vw, 26px);
+  row-gap:clamp(28px, 2.6vw, 52px);
+  list-style:none;
+}
+.bb-project{ display:flex; flex-direction:column; }
+.bb-project__link{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  color:inherit;
+  text-decoration:none;
+}
+.bb-project__figure{
+  position:relative;
+  margin:0;
+  overflow:hidden;               /* the enlargement is cropped by the frame */
+}
+.bb-project__image{
+  display:block;
+  width:100%;
+  height:100%;
+  aspect-ratio:598 / 455;
+  object-fit:cover;
+  background:var(--hairline-soft);
+  transition:transform .5s cubic-bezier(.2,.7,.25,1);
+}
+.bb-project__link:hover .bb-project__image,
+.bb-project__link:focus-visible .bb-project__image{ transform:scale(1.04); }
+
+.bb-project__body{
+  display:flex;
+  flex-direction:column;
+  padding:clamp(10px, .85vw, 18px) 0 0;
+}
+.bb-project__no{
+  margin:0 0 var(--gap-label-title);
+  color:var(--ink-muted);
+  font-size:var(--label-fs);
+  letter-spacing:.16em;
+}
+.bb-heading--project{
+  margin:0;
+  max-width:20em;
+  font-size:clamp(18px, 1.25vw, 26px);
+  font-weight:500;
+  line-height:1.26;
+  letter-spacing:-.01em;
+  transition:color .25s ease;
+}
+.bb-project__link:hover .bb-heading--project,
+.bb-project__link:focus-visible .bb-heading--project{ color:var(--green); }
+.bb-copy--project{
+  margin:var(--gap-label-title) 0 0;
+  max-width:28em;
+  color:var(--ink-muted);
+  font-size:var(--lede-fs);
+  line-height:1.5;
+}
+
 @media (max-width:1150px){
-  .bb-catalog{ grid-template-columns:repeat(2, 1fr); }
+  .bb-project-intro{ grid-template-columns:1fr; row-gap:18px; }
+  .bb-project-intro__head{ padding-left:0; }
+  .bb-photo-grid{ margin-left:0; }
 }
 @media (max-width:640px){
-  .bb-catalog{ grid-template-columns:1fr; }
+  .bb-photo-grid{ grid-template-columns:1fr; }
 }
+
+/* --- Header: contact button next to the language switch ------------------ */
+.bb-site-header__tools{
+  justify-self:end;
+  display:flex;
+  align-items:center;
+  gap:clamp(16px, 1.5vw, 30px);
+}
+.bb-site-header__cta{
+  padding:.8em 1.35em;
+  font-size:clamp(12px, .72vw, 15px);
+  white-space:nowrap;
+}
+@media (max-width:1080px){
+  .bb-site-header__cta{ display:none; }   /* the menu panel carries "Kontakty" */
+}
+

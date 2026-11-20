@@ -16,6 +16,9 @@
 - Адаптив: точки 1150, 1080 (меню), 640. Проверять на 1440 и 600 px (headless Chrome не рендерит уже 500).
 - Иконки: `images/icons/` (взяты из imholz.at), логотипы: `images/logos/logo-green.svg`, `logo-white.svg` (инлайн-SVG со старого imholz.cz).
 
+## Терминология
+Компания — поставщик **dřevěných materiálů / materiálů ze dřeva**, а не «dodavatel dřeva» (решение пользователя). Слово «dřevo» оставлять только там, где речь о самой древесине (původ dřeva, druhy dřeva).
+
 ## Вкладка браузера и SEO-шапка (как на imholz.at)
 - Значок: `images/identity/site-icon.png` (зелёный круглый знак, тот же что на imholz.at), `<link rel="icon">` + `apple-touch-icon` в каждой странице.
 - Подпись вкладки: главная `IM HOLZ | Mezinárodní dodavatel dřeva od roku 2009`; внутренние страницы `Тема: уточнение | IM HOLZ` (например `Řezivo: smrk, borovice, modřín | IM HOLZ`). Каждой странице свой `<title>`, `description`, `og:*`.
