@@ -162,3 +162,18 @@
   nodes.forEach(function (node) { io.observe(node); });
 })();
 
+
+/* Language switch: closes on a click elsewhere and on Escape. */
+(function () {
+  var box = document.querySelector('.bb-lang');
+  if (!box) return;
+  document.addEventListener('click', function (e) {
+    if (!box.contains(e.target)) box.removeAttribute('open');
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && box.hasAttribute('open')) {
+      box.removeAttribute('open');
+      box.querySelector('summary').focus();
+    }
+  });
+})();

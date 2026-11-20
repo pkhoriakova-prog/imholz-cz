@@ -43,14 +43,20 @@
     </nav>
 
     <div class="bb-site-header__tools">
-      <p class="bb-site-lang">
-        <span class="bb-site-lang__current" aria-current="true">CZ</span>
-        <span class="bb-site-lang__sep">/</span>
-        <a class="bb-site-lang__other" href="#" lang="en" hreflang="en">EN</a>
-        <span class="bb-site-lang__sep">/</span>
-        <a class="bb-site-lang__other" href="#" lang="de" hreflang="de">DE</a>
-      </p>
-      <a class="bb-mail-button bb-site-header__cta" href="kontakty.html">Kontaktujte nás</a>
+      <details class="bb-lang">
+        <summary class="bb-lang__current" aria-label="Jazyk webu: čeština">
+          <span>CZ</span>
+          <span class="bb-lang__chevron" aria-hidden="true"></span>
+        </summary>
+        <ul class="bb-lang__list">
+          <li><a href="#" lang="en" hreflang="en">EN</a></li>
+          <li><a href="#" lang="de" hreflang="de">DE</a></li>
+        </ul>
+      </details>
+      <a class="bb-mail-button bb-site-header__cta" href="kontakty.html">
+        <span class="bb-mail-button__icon" aria-hidden="true"></span>
+        <span class="bb-mail-button__label">Kontaktujte nás</span>
+      </a>
     </div>
 
     <button class="bb-nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -69,7 +75,7 @@
 
       <div class="bb-hero__head">
 
-        <h1 class="bb-heading bb-heading--hero bb-heading--hero-partners" id="hero-heading"><span class="bb-hero__title-rise"><span class="bb-hero__title-line">Dřevo – naše vášeň,</span> <span class="bb-hero__title-line">vaše výhoda</span></span></h1>
+        <h1 class="bb-heading bb-heading--hero bb-heading--hero-partners" id="hero-heading"><span class="bb-hero__title-rise"><span class="bb-hero__title-line">Dřevěné materiály pro stavbu,</span> <span class="bb-hero__title-line">interiér i vytápění</span></span></h1>
 
         <div class="bb-hero__aside">
           <p class="bb-copy bb-copy--hero">IM HOLZ je mezinárodní dodavatel dřevěných materiálů od roku 2009. Dodáváme konstrukční materiály, řezivo, fasády, podlahy i dřevěné palivo. Pracujeme v souladu s EUTR a nabízíme dřevo s certifikací PEFC a FSC.</p>
@@ -122,7 +128,8 @@
 
 
   <!-- ============ 3. KATALOG PRODUKCE ============ -->
-  <!-- TODO: seznamy materiálů jsou předběžné (podle schématu katalogu), ověřit se sortimentem.
+  <!-- Seznamy odpovídají schématu katalogu: záložky (skupiny) a typy produktů, bez dělení na dřeviny
+       (dřeviny jsou uvnitř stránky směru). TODO: ověřit se sortimentem.
        Odkazy s # povedou na záložky na stránce směru. -->
   <section class="bb-section bb-block" id="katalog" aria-labelledby="catalog-heading">
     <div class="bb-shell">
@@ -143,9 +150,11 @@
           <div class="bb-card__body">
             <h5 class="bb-heading bb-heading--card"><a href="katalog-stavba.html">Stavba a dřevěné konstrukce</a></h5>
             <ul class="bb-card__list">
-              <li><a href="katalog-stavba.html#kvh">KVH</a></li>
+              <li><a href="katalog-stavba.html#kvh-nsi">KVH NSi</a></li>
+              <li><a href="katalog-stavba.html#kvh-si">KVH Si</a></li>
               <li><a href="katalog-stavba.html#bsh">BSH</a></li>
-              <li><a href="katalog-stavba.html#duo-trio">DUO / TRIO</a></li>
+              <li><a href="katalog-stavba.html#duo">DUO</a></li>
+              <li><a href="katalog-stavba.html#trio">TRIO</a></li>
               <li><a href="katalog-stavba.html#clt">CLT</a></li>
               <li><a href="katalog-stavba.html#osb">OSB</a></li>
               <li><a href="katalog-stavba.html#esb">ESB</a></li>
@@ -165,10 +174,6 @@
             <ul class="bb-card__list">
               <li><a href="katalog-fasady.html#fasadni-profily">Fasádní profily</a></li>
               <li><a href="katalog-fasady.html#terasova-prkna">Terasová prkna</a></li>
-              <li><a href="katalog-fasady.html#modrin">Modřín</a></li>
-              <li><a href="katalog-fasady.html#douglaska">Douglaska</a></li>
-              <li><a href="katalog-fasady.html#termodrevo">Termodřevo</a></li>
-              <li><a href="katalog-fasady.html#accoya">Accoya</a></li>
             </ul>
             <div class="bb-card__foot">
               <a class="bb-link-underline" href="katalog-fasady.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
@@ -199,7 +204,7 @@
               <li><a href="katalog-nabytek.html#masivni-panely">Masivní panely</a></li>
               <li><a href="katalog-nabytek.html#mdf">MDF</a></li>
               <li><a href="katalog-nabytek.html#prekliska">Překližka</a></li>
-              <li><a href="katalog-nabytek.html#rezivo">Řezivo</a></li>
+              <li><a href="katalog-rezivo.html">Řezivo</a></li>
             </ul>
             <div class="bb-card__foot">
               <a class="bb-link-underline" href="katalog-nabytek.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
@@ -212,14 +217,8 @@
           <div class="bb-card__body">
             <h5 class="bb-heading bb-heading--card"><a href="katalog-rezivo.html">Řezivo</a></h5>
             <ul class="bb-card__list">
-              <li><a href="katalog-rezivo.html#omitane">Omítané</a></li>
-              <li><a href="katalog-rezivo.html#neomitane">Neomítané</a></li>
-              <li><a href="katalog-rezivo.html#smrk">Smrk</a></li>
-              <li><a href="katalog-rezivo.html#borovice">Borovice</a></li>
-              <li><a href="katalog-rezivo.html#modrin">Modřín</a></li>
-              <li><a href="katalog-rezivo.html#dub">Dub</a></li>
-              <li><a href="katalog-rezivo.html#buk">Buk</a></li>
-              <li><a href="katalog-rezivo.html#jasan">Jasan</a></li>
+              <li><a href="katalog-rezivo.html#omitane">Omítané řezivo</a></li>
+              <li><a href="katalog-rezivo.html#neomitane">Neomítané řezivo</a></li>
             </ul>
             <div class="bb-card__foot">
               <a class="bb-link-underline" href="katalog-rezivo.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
