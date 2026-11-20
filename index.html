@@ -122,85 +122,126 @@
 
 
   <!-- ============ 3. KATALOG PRODUKCE ============ -->
-  <!-- Same frame as "Project Types" on imholz.at: running head on the margin,
-       heading and note on the first rule, plates in two columns to the right. -->
-  <section class="bb-section bb-projects" id="katalog" aria-labelledby="catalog-heading">
+  <!-- TODO: seznamy materiálů jsou předběžné (podle schématu katalogu), ověřit se sortimentem.
+       Odkazy s # povedou na záložky na stránce směru. -->
+  <section class="bb-section bb-block" id="katalog" aria-labelledby="catalog-heading">
     <div class="bb-shell">
 
-      <div class="bb-project-intro">
-
+      <div class="bb-block__intro">
         <h3 class="bb-section-label">Katalog produkce</h3>
-
-        <div class="bb-project-intro__head">
-          <h4 class="bb-heading bb-heading--projects" id="catalog-heading">Materiály ze dřeva pro každé použití</h4>
-          <p class="bb-copy bb-copy--section bb-project-intro__lede">Vyberte oblast použití a otevřete si nabídku materiálů, nebo si prohlédněte celý katalog.</p>
+        <div class="bb-block__head">
+          <h4 class="bb-heading bb-heading--block" id="catalog-heading">Materiály ze dřeva pro každé použití</h4>
+          <p class="bb-copy bb-copy--section">Vyberte oblast použití a otevřete konkrétní materiál, nebo si prohlédněte celý katalog.</p>
           <a class="bb-link-underline" href="katalog.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celý katalog</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
         </div>
-
       </div>
 
-      <ol class="bb-photo-grid">
-        <li class="bb-project">
-          <a class="bb-project__link" href="katalog-stavba.html">
-            <div class="bb-project__figure"><img class="bb-project__image" src="images/photos/glued.jpg" alt="Řez lepeným lamelovým dřevem" width="2000" height="1333" loading="lazy"></div>
-            <div class="bb-project__body">
-              <p class="bb-project__no">01</p>
-              <h5 class="bb-heading bb-heading--project">Stavba a dřevěné konstrukce</h5>
-              <p class="bb-copy bb-copy--project">Konstrukční hranoly, lepené nosníky, CLT, desky OSB a řezivo.</p>
+      <ul class="bb-catalog bb-block__body">
+
+        <li class="bb-card bb-card--catalog">
+          <a class="bb-card__media" href="katalog-stavba.html" tabindex="-1" aria-hidden="true"><img src="images/photos/glued.jpg" alt="" width="2000" height="1333" loading="lazy"></a>
+          <div class="bb-card__body">
+            <h5 class="bb-heading bb-heading--card"><a href="katalog-stavba.html">Stavba a dřevěné konstrukce</a></h5>
+            <ul class="bb-card__list">
+              <li><a href="katalog-stavba.html#kvh">KVH</a></li>
+              <li><a href="katalog-stavba.html#bsh">BSH</a></li>
+              <li><a href="katalog-stavba.html#duo-trio">DUO / TRIO</a></li>
+              <li><a href="katalog-stavba.html#clt">CLT</a></li>
+              <li><a href="katalog-stavba.html#osb">OSB</a></li>
+              <li><a href="katalog-stavba.html#esb">ESB</a></li>
+              <li><a href="katalog-stavba.html#prekliska">Překližka</a></li>
+              <li><a href="katalog-rezivo.html">Řezivo</a></li>
+            </ul>
+            <div class="bb-card__foot">
+              <a class="bb-link-underline" href="katalog-stavba.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
             </div>
-          </a>
+          </div>
         </li>
-        <li class="bb-project">
-          <a class="bb-project__link" href="katalog-fasady.html">
-            <div class="bb-project__figure"><img class="bb-project__image" src="images/photos/planed.jpg" alt="Hoblované a profilované dřevo" width="1600" height="1067" loading="lazy"></div>
-            <div class="bb-project__body">
-              <p class="bb-project__no">02</p>
-              <h5 class="bb-heading bb-heading--project">Fasády, terasy a venkovní obklady</h5>
-              <p class="bb-copy bb-copy--project">Fasádní profily a terasová prkna z modřínu, douglasky i termodřeva.</p>
+
+        <li class="bb-card bb-card--catalog">
+          <a class="bb-card__media" href="katalog-fasady.html" tabindex="-1" aria-hidden="true"><img src="images/photos/planed.jpg" alt="" width="1600" height="1067" loading="lazy"></a>
+          <div class="bb-card__body">
+            <h5 class="bb-heading bb-heading--card"><a href="katalog-fasady.html">Fasády, terasy a venkovní obklady</a></h5>
+            <ul class="bb-card__list">
+              <li><a href="katalog-fasady.html#fasadni-profily">Fasádní profily</a></li>
+              <li><a href="katalog-fasady.html#terasova-prkna">Terasová prkna</a></li>
+              <li><a href="katalog-fasady.html#modrin">Modřín</a></li>
+              <li><a href="katalog-fasady.html#douglaska">Douglaska</a></li>
+              <li><a href="katalog-fasady.html#termodrevo">Termodřevo</a></li>
+              <li><a href="katalog-fasady.html#accoya">Accoya</a></li>
+            </ul>
+            <div class="bb-card__foot">
+              <a class="bb-link-underline" href="katalog-fasady.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
             </div>
-          </a>
+          </div>
         </li>
-        <li class="bb-project">
-          <a class="bb-project__link" href="katalog-interier.html">
-            <div class="bb-project__figure"><img class="bb-project__image" src="images/photos/panels.jpg" alt="Masivní dřevěné panely" width="1600" height="1067" loading="lazy"></div>
-            <div class="bb-project__body">
-              <p class="bb-project__no">03</p>
-              <h5 class="bb-heading bb-heading--project">Vnitřní obklady a podlahy</h5>
-              <p class="bb-copy bb-copy--project">Parkety, masivní podlahy a masivní panely z různých druhů dřeva.</p>
+
+        <li class="bb-card bb-card--catalog">
+          <a class="bb-card__media" href="katalog-interier.html" tabindex="-1" aria-hidden="true"><img src="images/photos/panels.jpg" alt="" width="1600" height="1067" loading="lazy"></a>
+          <div class="bb-card__body">
+            <h5 class="bb-heading bb-heading--card"><a href="katalog-interier.html">Vnitřní obklady a podlahy</a></h5>
+            <ul class="bb-card__list">
+              <li><a href="katalog-interier.html#parkety">Parkety</a></li>
+              <li><a href="katalog-interier.html#masivni-podlahy">Masivní podlahy</a></li>
+              <li><a href="katalog-interier.html#masivni-panely">Masivní panely</a></li>
+            </ul>
+            <div class="bb-card__foot">
+              <a class="bb-link-underline" href="katalog-interier.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
             </div>
-          </a>
+          </div>
         </li>
-        <li class="bb-project">
-          <a class="bb-project__link" href="katalog-nabytek.html">
-            <div class="bb-project__figure"><img class="bb-project__image" src="images/photos/mdf.jpg" alt="Deskové materiály pro výrobu nábytku" width="1600" height="1067" loading="lazy"></div>
-            <div class="bb-project__body">
-              <p class="bb-project__no">04</p>
-              <h5 class="bb-heading bb-heading--project">Nábytek a truhlářská výroba</h5>
-              <p class="bb-copy bb-copy--project">Masivní panely, MDF, překližka a řezivo pro nábytkářskou výrobu.</p>
+
+        <li class="bb-card bb-card--catalog">
+          <a class="bb-card__media" href="katalog-nabytek.html" tabindex="-1" aria-hidden="true"><img src="images/photos/mdf.jpg" alt="" width="1600" height="1067" loading="lazy"></a>
+          <div class="bb-card__body">
+            <h5 class="bb-heading bb-heading--card"><a href="katalog-nabytek.html">Nábytek a truhlářská výroba</a></h5>
+            <ul class="bb-card__list">
+              <li><a href="katalog-nabytek.html#masivni-panely">Masivní panely</a></li>
+              <li><a href="katalog-nabytek.html#mdf">MDF</a></li>
+              <li><a href="katalog-nabytek.html#prekliska">Překližka</a></li>
+              <li><a href="katalog-nabytek.html#rezivo">Řezivo</a></li>
+            </ul>
+            <div class="bb-card__foot">
+              <a class="bb-link-underline" href="katalog-nabytek.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
             </div>
-          </a>
+          </div>
         </li>
-        <li class="bb-project">
-          <a class="bb-project__link" href="katalog-rezivo.html">
-            <div class="bb-project__figure"><img class="bb-project__image" src="images/photos/unedged.jpg" alt="Neomítané řezivo" width="1600" height="1067" loading="lazy"></div>
-            <div class="bb-project__body">
-              <p class="bb-project__no">05</p>
-              <h5 class="bb-heading bb-heading--project">Řezivo</h5>
-              <p class="bb-copy bb-copy--project">Omítané i neomítané řezivo jehličnatých, listnatých a exotických dřevin.</p>
+
+        <li class="bb-card bb-card--catalog">
+          <a class="bb-card__media" href="katalog-rezivo.html" tabindex="-1" aria-hidden="true"><img src="images/photos/unedged.jpg" alt="" width="1600" height="1067" loading="lazy"></a>
+          <div class="bb-card__body">
+            <h5 class="bb-heading bb-heading--card"><a href="katalog-rezivo.html">Řezivo</a></h5>
+            <ul class="bb-card__list">
+              <li><a href="katalog-rezivo.html#omitane">Omítané</a></li>
+              <li><a href="katalog-rezivo.html#neomitane">Neomítané</a></li>
+              <li><a href="katalog-rezivo.html#smrk">Smrk</a></li>
+              <li><a href="katalog-rezivo.html#borovice">Borovice</a></li>
+              <li><a href="katalog-rezivo.html#modrin">Modřín</a></li>
+              <li><a href="katalog-rezivo.html#dub">Dub</a></li>
+              <li><a href="katalog-rezivo.html#buk">Buk</a></li>
+              <li><a href="katalog-rezivo.html#jasan">Jasan</a></li>
+            </ul>
+            <div class="bb-card__foot">
+              <a class="bb-link-underline" href="katalog-rezivo.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
             </div>
-          </a>
+          </div>
         </li>
-        <li class="bb-project">
-          <a class="bb-project__link" href="katalog-palivo.html">
-            <div class="bb-project__figure"><img class="bb-project__image" src="images/photos/pellets.jpg" alt="Dřevěné pelety" width="1600" height="1067" loading="lazy"></div>
-            <div class="bb-project__body">
-              <p class="bb-project__no">06</p>
-              <h5 class="bb-heading bb-heading--project">Dřevěné palivo a vytápění</h5>
-              <p class="bb-copy bb-copy--project">Pelety a palivové dříví.</p>
+
+        <li class="bb-card bb-card--catalog">
+          <a class="bb-card__media" href="katalog-palivo.html" tabindex="-1" aria-hidden="true"><img src="images/photos/pellets.jpg" alt="" width="1600" height="1067" loading="lazy"></a>
+          <div class="bb-card__body">
+            <h5 class="bb-heading bb-heading--card"><a href="katalog-palivo.html">Dřevěné palivo a vytápění</a></h5>
+            <ul class="bb-card__list">
+              <li><a href="katalog-palivo.html#pelety">Pelety</a></li>
+              <li><a href="katalog-palivo.html#drevo">Palivové dříví</a></li>
+            </ul>
+            <div class="bb-card__foot">
+              <a class="bb-link-underline" href="katalog-palivo.html"><span class="bb-link-underline__label"><span class="bb-link-underline__roll">Celá nabídka</span></span><span class="bb-link-underline__mark" aria-hidden="true"></span></a>
             </div>
-          </a>
+          </div>
         </li>
-      </ol>
+
+      </ul>
 
     </div>
   </section>
