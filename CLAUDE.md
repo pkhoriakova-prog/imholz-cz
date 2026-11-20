@@ -16,6 +16,11 @@
 - Адаптив: точки 1150, 1080 (меню), 640. Проверять на 1440 и 600 px (headless Chrome не рендерит уже 500).
 - Иконки: `images/icons/` (взяты из imholz.at), логотипы: `images/logos/logo-green.svg`, `logo-white.svg` (инлайн-SVG со старого imholz.cz).
 
+## Вкладка браузера и SEO-шапка (как на imholz.at)
+- Значок: `images/identity/site-icon.png` (зелёный круглый знак, тот же что на imholz.at), `<link rel="icon">` + `apple-touch-icon` в каждой странице.
+- Подпись вкладки: главная `IM HOLZ | Mezinárodní dodavatel dřeva od roku 2009`; внутренние страницы `Тема: уточнение | IM HOLZ` (например `Řezivo: smrk, borovice, modřín | IM HOLZ`). Каждой странице свой `<title>`, `description`, `og:*`.
+- Пока сайт — черновик, на **каждой** странице стоит `<meta name="robots" content="noindex, nofollow">`. Убрать при запуске, не раньше.
+
 ## Структура сайта (утверждена)
 Схемы лежат у пользователя: IM_HOLZ_site_structure_poster_v3.pdf, IM_HOLZ_catalog_structure_A3.pdf.
 - Главная, Каталог продукции, 6 страниц направлений (общий шаблон), Услуги, О компании, Для поставщиков, Новости, Контакты, Запрос предложения.
