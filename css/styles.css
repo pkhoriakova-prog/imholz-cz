@@ -1104,7 +1104,7 @@ body > main{
 }
 .bb-copy--footer-brand{
   margin:clamp(16px, 1.5vw, 30px) 0 0;
-  max-width:16em;              /* a short column under the mark, not a line
+  max-width:22em;              /* a short column under the mark, not a line
                                   run out across the cell */
   color:rgba(255,255,255,.72);
   font-size:var(--lede-fs);
@@ -1147,7 +1147,7 @@ body > main{
    field rather than as a picture parked under the text. */
 .bb-site-footer__art{
   line-height:0;
-  margin-top:clamp(-72px, -3.4vw, -18px);
+  margin-top:clamp(-120px, -6vw, -40px);
 }
 .bb-site-footer__drawing{
   display:block;
@@ -2360,7 +2360,7 @@ textarea.bb-field__input{ min-height:6.4em; }
 .bb-picker--open .bb-picker__toggle{
   outline:none;
   border-color:var(--green);
-  box-shadow:inset 0 -2px 0 var(--green);
+  box-shadow:none;
 }
 .bb-field__input[aria-invalid="true"]{ border-color:#a33a2a; box-shadow:inset 0 -2px 0 #a33a2a; }
 .bb-field__error::before{ content:"! "; font-weight:700; }
@@ -2457,6 +2457,8 @@ fieldset.bb-form__pick > legend{ margin-bottom:var(--gap-label-title); }
   padding:.7em .9em;
   font-size:clamp(15px, 1vw, 18px);
 }
+.bb-field__input::placeholder,
+.bb-picker__toggle:not(.is-filled) .bb-picker__label{ font-size:clamp(14px, .85vw, 16px); }
 textarea.bb-field__input{ min-height:5.4em; }
 
 /* the list of directions */
@@ -2487,120 +2489,51 @@ textarea.bb-field__input{ min-height:5.4em; }
 .bb-field--message{ margin-top:0; }
 .bb-form__final{ margin-top:calc(var(--gap-title-text) - var(--gap-para)); }
 
-/* --- Certificates in the green panel: the ruled rows of "Standards & Certifications" (imholz.at) ------- */
-.bb-certs{ list-style:none; margin:var(--gap-para) 0 0; padding:0; }
-.bb-certs li{ border-top:1px solid color-mix(in srgb, currentColor 24%, transparent); }
-.bb-certs li:last-child{ border-bottom:1px solid color-mix(in srgb, currentColor 24%, transparent); }
-.bb-certs__row{
-  display:grid;
-  grid-template-columns:minmax(5.4em, 7em) minmax(0, 1fr) auto;
-  align-items:start;
-  column-gap:var(--gap-para);
-  padding:var(--gap-para) 0;
-  color:inherit;
-  text-decoration:none;
+/* Lists inside the solution picker: the same classes and rules as imholz.at
+   (.bb-solution__items / __item / __item-link); in the green panel they are drawn light. */
+.bb-solution__items{ list-style:none; margin:var(--gap-label-title) 0 0; padding:0; max-width:30em; border-top:1px solid rgba(18,18,18,.14); }
+.bb-solution__item{ font-size:var(--lede-fs); line-height:1.35; padding:.7em .8em; border-bottom:1px solid rgba(18,18,18,.14); }
+.bb-solution__item--link{ padding:0; }
+.bb-solution__item-link{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1em;
+  min-height:44px;
+  padding:.7em 1.5em .7em .8em;
+  color:var(--green);
+  font-weight:500;
+  text-decoration:underline;
+  text-decoration-color:transparent;
+  text-decoration-thickness:1px;
+  text-underline-offset:.28em;
+  transition:background-color .3s ease, text-decoration-color .3s ease;
 }
-.bb-certs__code{
-  font-size:var(--label-fs);
-  font-weight:600;
-  letter-spacing:.12em;
-  line-height:1.6;
-  text-transform:uppercase;
-  opacity:.75;
+.bb-solution__item-link::after{
+  content:"";
+  flex:none;
+  width:.55em;
+  height:.55em;
+  border-top:1.5px solid currentColor;
+  border-right:1.5px solid currentColor;
+  transform:rotate(45deg);
+  transition:transform .3s ease;
 }
-.bb-certs__title{ display:block; font-size:clamp(15px, 1vw, 19px); font-weight:600; line-height:1.3; }
-.bb-certs__text{ display:block; margin-top:4px; font-size:var(--lede-fs); line-height:1.45; opacity:.8; }
-.bb-certs__arrow{
-  width:.9em;
-  height:.9em;
-  margin-top:.25em;
-  background:currentColor;
-  -webkit-mask:var(--arrow) center / contain no-repeat;
-  mask:var(--arrow) center / contain no-repeat;
-  transform:rotate(-45deg);
-  transition:transform .32s cubic-bezier(.2,.7,.25,1);
-  opacity:.8;
-}
-.bb-certs__row:hover .bb-certs__arrow,
-.bb-certs__row:focus-visible .bb-certs__arrow{ transform:rotate(0deg); }
-.bb-certs__row:hover .bb-certs__title,
-.bb-certs__row:focus-visible .bb-certs__title{ text-decoration:underline; text-underline-offset:3px; }
+.bb-solution__item-link:hover,
+.bb-solution__item-link:focus-visible{ background-color:rgba(18,18,18,.07); text-decoration-color:currentColor; }
+.bb-solution__item-link:hover::after,
+.bb-solution__item-link:focus-visible::after{ transform:rotate(45deg) translate3d(2px,-2px,0); }
+
+.bb-solution-picker__panel-title{ font-weight:400; }
+.bb-solution-picker__panel-text .bb-solution__items{ max-width:28em; color:rgba(255,255,255,.85); border-top-color:rgba(255,255,255,.22); }
+.bb-solution-picker__panel-text .bb-solution__item{ border-bottom-color:rgba(255,255,255,.22); }
+.bb-solution-picker__panel-text .bb-solution__item-link{ color:var(--paper); }
+.bb-solution-picker__panel-text .bb-solution__item-link:hover,
+.bb-solution-picker__panel-text .bb-solution__item-link:focus-visible{ background-color:rgba(255,255,255,.16); }
 .bb-solution-picker__panel-text .bb-link-underline{ margin-top:var(--gap-text-link); }
-@media (max-width:640px){
-  .bb-certs__row{ grid-template-columns:minmax(0, 1fr) auto; }
-  .bb-certs__code{ grid-column:1 / -1; }
-}
-
-/* the contacts: the facts of "Message from the Founder" on imholz.at, as they are there
-   (a rule above, a rule between the rows, none below; 24em of the page font) */
-.bb-contact__facts{
-  grid-column:1;
-  align-self:start;
-  display:grid;
-  grid-template-columns:minmax(0, 1fr);
-  margin:var(--gap-block-media) 0 0;
-  padding-right:0;
-  border-top:1px solid var(--hairline-soft);
-  border-bottom:0;
-  max-width:24em;
-}
-.bb-contact__facts > div{ padding:var(--gap-para) var(--rule-inset) var(--gap-para) 0; border-bottom:0; }
-.bb-contact__facts > div + div{ padding-left:0; border-left:0; border-top:1px solid var(--hairline-soft); }
-.bb-contact__facts dd{ text-wrap:balance; }
-@media (max-width:1150px){
-  .bb-contact__facts{ max-width:none; }
-}
-/* --- Request: the text inside the fields is the size of the page text, not larger ---------- */
-.bb-field__input,
-.bb-picker__toggle{ font-size:clamp(14px, .9vw, 16px); }
-.bb-field__input::placeholder{ font-size:inherit; color:rgba(18, 18, 18, .38); }
-.bb-pick__name{ font-size:clamp(14px, .9vw, 16px); font-weight:400; }
-.bb-pick__main:checked ~ .bb-pick__name,
-.bb-pick__check:checked ~ .bb-pick__name{ font-weight:500; }
-.bb-pick__box{ font-size:clamp(12px, .8vw, 15px); }
-.bb-pick__count{ font-size:var(--label-fs); }
-.bb-pick__summary{ font-size:clamp(12px, .78vw, 14px); }
-.bb-chip span{ font-size:clamp(12px, .8vw, 15px); padding:.38em .8em; }
-.bb-picker__summary span{ font-size:clamp(12px, .8vw, 14px); }
-.bb-consent{ font-size:clamp(12px, .78vw, 14px); }
-@media (max-width:640px){
-  .bb-field__input,
-  .bb-picker__toggle{ font-size:16px; }
-}
-
-/* --- Request: the opened list of directions, neater ----------------------------------------- */
-.bb-picker--open .bb-picker__toggle{ border-bottom-color:var(--green); }
-.bb-pick-list{
-  margin:0;
-  padding:var(--gap-label-title) var(--gap-para);
-  background:var(--paper);
-  border:1px solid rgba(18, 18, 18, .12);
-  border-top:0;
-}
-.bb-pick__head,
-.bb-pick__advice{ padding-top:7px; padding-bottom:7px; }
-.bb-pick__advice-item{ padding-bottom:var(--gap-label-title); margin-bottom:var(--gap-label-title); border-bottom:1px solid var(--hairline-soft); }
-.bb-pick__advice{ padding-top:2px; padding-bottom:2px; }
-.bb-pick__group-title{ margin:0 0 var(--gap-label-title); font-size:var(--label-fs); }
-.bb-picker__panel{ margin-top:0; }
-.bb-picker__done{ margin-top:var(--gap-para); }
-.bb-picker__close{ padding:.65em 1.3em; font-size:clamp(13px, .85vw, 15px); }
-
-/* the drawing: a little lower, and a little softer in colour */
-.bb-site-footer__art{ margin-top:clamp(12px, 2.4vw, 48px); }
-.bb-site-footer__drawing{ opacity:.84; filter:saturate(.9); }
-
-/* the drawing: a little higher than before, and a little brighter */
-.bb-site-footer__art{ margin-top:clamp(4px, 1vw, 20px); }
-.bb-site-footer__drawing{ opacity:.94; filter:saturate(1); }
-
-/* the drawing: a little higher still */
-.bb-site-footer__art{ margin-top:clamp(-14px, -1vw, -4px); }
-
-/* the drawing: a little brighter again */
-.bb-site-footer__drawing{ opacity:1; filter:saturate(1.08) brightness(1.06); }
 
 /* --- "Where We Work" of imholz.at: four tiles with a line drawing in the corner (here: the services) ---- */
+#sluzby{ background:var(--paper); }
 .bb-work-grid{
   list-style:none;
   margin:var(--gap-block-media) 0 0;

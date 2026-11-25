@@ -349,7 +349,7 @@
     $('.bb-pick__toggle', pick).addEventListener('click', function () { fold(pick); });
     /* a click on the name of a ticked direction only folds or unfolds it; the choice is taken off by the tick */
     $('.bb-pick__head', pick).addEventListener('click', function (e) {
-      if (e.target === main || !main.checked) return;
+      if (e.target === main || e.target.closest('.bb-pick__box') || !main.checked) return;
       e.preventDefault();
       fold(pick);
     });
