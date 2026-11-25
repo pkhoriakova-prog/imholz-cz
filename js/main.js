@@ -357,6 +357,7 @@
     msgLabel.innerHTML = t.msgLabel;
     msg.placeholder = t.hint;
     msg.rows = t.rows;
+    msg.setAttribute('aria-required', type === 'Podle katalogu' ? 'false' : 'true');
     pickLegend.innerHTML = t.pickLabel;
     clearError(msg);
     clearError(pickToggle);

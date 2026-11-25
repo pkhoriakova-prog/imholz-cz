@@ -1233,7 +1233,7 @@ body > main{
 .bb-insight__media{
   position:relative;
   display:block;
-  aspect-ratio:5 / 4;
+  aspect-ratio:3 / 2;
   overflow:hidden;
   background:
     repeating-linear-gradient(135deg,
@@ -1248,6 +1248,7 @@ body > main{
   object-fit:cover;
   transition:transform .5s cubic-bezier(.2,.7,.25,1);
 }
+.bb-insight__media--bottom img{ object-position:center bottom; }
 .bb-insight__media:hover img,
 .bb-insight__media:focus-visible img{ transform:scale(1.04); }
 .bb-heading--insight{
@@ -3084,3 +3085,26 @@ textarea.bb-field__input{ padding-block:clamp(12px, .9vw, 16px); }
 
 /* the frame is a little farther from the choices than they are from each other: 2.05u against 1.7u */
 .bb-pick-list{ padding:calc(var(--u) * 1.2) calc(var(--u) * 2.05); }
+
+/* ---- usability on touch screens and for the keyboard -------------------------------------------------------------------- */
+
+/* 1. the rows and the chips of the list are hit with a finger: the clickable area is 44 px high (the rows look as close as before) */
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick__head,
+  .bb-pick__toggle{ position:relative; }
+  .bb-pick__head::before{ content:""; position:absolute; inset:-6px 0; }
+  .bb-chip span{ position:relative; }
+  .bb-chip span::after{ content:""; position:absolute; inset:-4px; }
+}
+
+/* 2. the hints inside the fields are readable (contrast above 4.5:1), the border of a field is darker under the pointer */
+.bb-field__input::placeholder{ color:rgba(18, 18, 18, .62); }
+.bb-picker__toggle:not(.is-filled){ color:rgba(18, 18, 18, .62); }
+.bb-field__input:hover,
+.bb-picker__toggle:hover{ border-color:rgba(18, 18, 18, .5); }
+
+/* 3. the keyboard: nothing is drawn around the controls, but it is always seen where it stands
+      (a white inner line in a ticked square, an underline in a tab; the other controls take the green border) */
+.bb-pick__main:checked:focus-visible ~ .bb-pick__box,
+.bb-pick__check:checked:focus-visible ~ .bb-pick__box{ box-shadow:inset 0 0 0 2px #fff; }
+.bb-pill:has(.bb-pill__input:focus-visible){ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.28em; }

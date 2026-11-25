@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20261128b">
+<link rel="stylesheet" href="css/styles.css?v=20261128g">
 <!-- Structured data. TODO at launch: add phone, address and the confirmed e-mail; add canonical + hreflang. -->
 <script type="application/ld+json">
 {
@@ -31,7 +31,7 @@
   "sameAs": ["https://www.linkedin.com/in/imholz2009/"]
 }
 </script>
-<script src="js/main.js?v=20261127a" defer></script>
+<script src="js/main.js?v=20261128a" defer></script>
 </head>
 <body>
 
@@ -160,7 +160,7 @@
       <ul class="bb-catalog bb-block__body">
 
         <li class="bb-insight">
-          <a class="bb-insight__media" href="katalog-stavba.html" tabindex="-1" aria-hidden="true"><img src="images/photos/glued.avif" alt="Lepené lamelové dřevo BSH a CLT pro dřevěné konstrukce" width="1200" height="800" loading="lazy"></a>
+          <a class="bb-insight__media bb-insight__media--bottom" href="katalog-stavba.html" tabindex="-1" aria-hidden="true"><img src="images/photos/stavba-drevene-konstrukce.avif" alt="Dřevěná konstrukce s obloukovými nosníky v interiéru" width="1200" height="798" loading="lazy"></a>
           <div class="bb-insight__body">
             <h3 class="bb-heading bb-heading--insight"><a href="katalog-stavba.html">Stavba a&nbsp;dřevěné konstrukce</a></h3>
             <ul class="bb-insight__links">
@@ -172,7 +172,7 @@
         </li>
 
         <li class="bb-insight">
-          <a class="bb-insight__media" href="katalog-fasady.html" tabindex="-1" aria-hidden="true"><img src="images/photos/planed.avif" alt="Hoblované fasádní profily a terasová prkna" width="1200" height="800" loading="lazy"></a>
+          <a class="bb-insight__media" href="katalog-fasady.html" tabindex="-1" aria-hidden="true"><img src="images/photos/fasady-drevene-lamely.avif" alt="Fasáda budovy s dřevěnými svislými lamelami" width="1200" height="799" loading="lazy"></a>
           <div class="bb-insight__body">
             <h3 class="bb-heading bb-heading--insight"><a href="katalog-fasady.html">Fasády, terasy a&nbsp;venkovní obklady</a></h3>
             <ul class="bb-insight__links">
@@ -183,7 +183,7 @@
         </li>
 
         <li class="bb-insight">
-          <a class="bb-insight__media" href="katalog-interier.html" tabindex="-1" aria-hidden="true"><img src="images/photos/panels.avif" alt="Masivní dřevěné panely a podlahy" width="666" height="458" loading="lazy"></a>
+          <a class="bb-insight__media" href="katalog-interier.html" tabindex="-1" aria-hidden="true"><img src="images/photos/interier-drevene-obklady.avif" alt="Interiér s dřevěnými lamelovými obklady" width="1200" height="800" loading="lazy"></a>
           <div class="bb-insight__body">
             <h3 class="bb-heading bb-heading--insight"><a href="katalog-interier.html">Vnitřní obklady a&nbsp;podlahy</a></h3>
             <ul class="bb-insight__links">
@@ -486,17 +486,17 @@
           <div class="bb-form__grid">
                   <div class="bb-field">
                     <label class="bb-field__label" for="f-name">Jméno a&nbsp;příjmení <span class="bb-field__req">*</span></label>
-                    <input class="bb-field__input" id="f-name" name="jmeno" type="text" autocomplete="name" required aria-describedby="err-name">
+                    <input class="bb-field__input" id="f-name" name="jmeno" type="text" autocomplete="name" required aria-required="true" aria-describedby="err-name">
                     <p class="bb-field__error" id="err-name" hidden></p>
                   </div>
                   <div class="bb-field">
                     <label class="bb-field__label" for="f-company">Firma <span class="bb-field__req">*</span></label>
-                    <input class="bb-field__input" id="f-company" name="firma" type="text" autocomplete="organization" required aria-describedby="err-company">
+                    <input class="bb-field__input" id="f-company" name="firma" type="text" autocomplete="organization" required aria-required="true" aria-describedby="err-company">
                     <p class="bb-field__error" id="err-company" hidden></p>
                   </div>
                   <div class="bb-field">
                     <label class="bb-field__label" for="f-email">E-mail <span class="bb-field__req">*</span></label>
-                    <input class="bb-field__input" id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="err-email">
+                    <input class="bb-field__input" id="f-email" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="err-email">
                     <p class="bb-field__error" id="err-email" hidden></p>
                   </div>
                   <div class="bb-field">
