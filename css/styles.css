@@ -81,7 +81,7 @@ html{
    header, whatever padding the section itself carries. */
 .bb-section{ --anchor-gap:clamp(28px, 2.6vw, 48px); }
 .bb-section[id]{ scroll-margin-top:calc(var(--anchor-gap) - clamp(52px, 6.5vw, 132px)); }
-.bb-shift[id]{ scroll-margin-top:calc(var(--anchor-gap) - clamp(26px, 2.6vw, 56px)); }
+.bb-shift[id]{ scroll-margin-top:var(--anchor-gap); }
 
 body{
   margin:0;
@@ -631,10 +631,10 @@ body > main{
 /* the first section needs none: the hero above it is closed by the header */
 .bb-shift::before{ content:none; }
 
-/* The Shift follows the hero closely rather than opening a full section gap */
+/* The Shift is the lead-in of the services below it */
 .bb-shift{
   position:relative;
-  padding-top:clamp(26px, 2.6vw, 56px);
+  padding-block:clamp(52px, 6.5vw, 132px);
 }
 
 /* the running head: plain tracked capitals on the outer margin, no bullet */
@@ -838,7 +838,8 @@ body > main{
   background:var(--green);
   color:var(--paper);
 }
-.bb-pill[aria-selected="true"]{
+.bb-pill[aria-selected="true"],
+.bb-pill--active{
   border-color:var(--green);
   background:var(--green);
   color:var(--paper);
@@ -2614,13 +2615,13 @@ textarea.bb-field__input{ min-height:5.4em; }
   position:absolute;
   right:0;
   bottom:0;
-  width:56%;
+  width:72%;
   height:auto;
   pointer-events:none;
 }
 .bb-card--work > :not(.bb-card__art){ position:relative; z-index:1; }
 
-/* on the widths where the building lies under the text, the card is raised so
+/* on narrower screens the tiles grow with their text and the drawing lies under it */
 @media (max-width:1150px){
   .bb-work-grid{ margin-left:0; }
 }
@@ -2639,3 +2640,447 @@ textarea.bb-field__input{ min-height:5.4em; }
 @media (max-width:640px){
   .bb-work-grid{ grid-template-columns:1fr; row-gap:clamp(14px, 3vw, 24px); }
 }
+
+
+/* --- Request form: one voice for the type sizes ------------------------------------------------
+   what is typed or read is the size of the page text; captions are the size of the section labels */
+.bb-field__label,
+.bb-form__type > legend,
+fieldset.bb-form__pick > legend{ font-size:var(--label-fs); font-weight:400; letter-spacing:.16em; text-transform:uppercase; }
+.bb-field__input,
+.bb-picker__toggle,
+.bb-picker__label,
+.bb-pick__name,
+.bb-chip span,
+.bb-consent,
+.bb-form__submit{ font-size:var(--lede-fs); }
+.bb-field__input::placeholder{ font-size:inherit; }
+.bb-pick__summary,
+.bb-picker__summary span,
+.bb-pick__count,
+.bb-pick__group-title,
+.bb-pick__box,
+.bb-picker__clear,
+.bb-picker__close,
+.bb-picker__done,
+.bb-field__error,
+.bb-form__status{ font-size:var(--label-fs); }
+.bb-pick__group-title{ letter-spacing:.14em; }
+
+/* --- "Váš projekt": a building from outside, then from inside, with notes (the Announcement of imholz.at) ---
+   The frame is pinned while the page is scrolled; on narrower screens the two pictures follow one another
+   and the notes become a list under each. */
+.bb-solutions{ --sol-foot:clamp(30px, 3vw, 64px); padding-bottom:var(--sol-foot); }
+.bb-solutions::before{ content:none; }
+.bb-solutions > .bb-shell{ position:relative; z-index:1; }
+.bb-solutions__link{ margin-top:var(--gap-text-link); }
+.bb-solutions__track{
+  --stage-h:calc(100vh - var(--header-h));
+  position:relative;
+  height:calc(var(--stage-h) + 15vh + 75vh + 56vh + 28vh + 46vh);
+  margin-top:var(--gap-block-media);
+}
+.bb-solutions__stage{
+  position:sticky;
+  top:var(--header-h);
+  z-index:1;
+  height:calc(100vh - var(--header-h));
+  padding-block:clamp(10px, 1.4vh, 20px);
+}
+.bb-solutions__figure{ display:flex; flex-flow:column; height:100%; margin:0; }
+.bb-solutions__frame{ position:relative; flex:1 1 auto; min-height:0; overflow:hidden; }
+.bb-solutions__image{ display:block; width:100%; height:100%; object-fit:cover; background-color:var(--hairline-soft); }
+
+.bb-scene{ position:absolute; inset:0; }
+.bb-scene__view{
+  position:absolute;
+  inset:0;
+  transform:scale(var(--view-scale, 1));
+  transform-origin:var(--door-x, 60%) var(--door-y, 66%);
+  will-change:transform;
+}
+.bb-scene--in{ opacity:var(--in-on, 0); will-change:opacity; }
+.bb-scene--in .bb-scene__view{ --view-scale:.94; transform-origin:50% 56%; }
+.bb-disclosure--scene{ display:none; }
+
+/* the notes: a small mark on the picture, a thin leader, a card */
+.bb-annots{ position:absolute; inset:0; margin:0; padding:0; list-style:none; }
+.bb-annot{
+  position:absolute;
+  top:var(--y);
+  left:var(--x);
+  display:flex;
+  align-items:center;
+  max-width:min(300px, 30%);
+}
+.bb-annot--left{ flex-flow:row-reverse; width:min(300px, 30%); transform:translate3d(-100%, 0, 0); }
+.bb-annot--left .bb-annot__leader{ transform-origin:100% 50%; }
+.bb-annot__mark{
+  position:relative;
+  flex:none;
+  width:9px;
+  height:9px;
+  background:var(--paper);
+  border:1px solid var(--green);
+  opacity:0;
+  transform:translate3d(0, 10px, 0);
+  transition:opacity .42s ease, transform .42s cubic-bezier(.2, .7, .25, 1);
+}
+.bb-annot__mark::before,
+.bb-annot__mark::after{ content:""; position:absolute; background:var(--green); }
+.bb-annot__mark::before{ top:-4px; right:3px; bottom:-4px; left:3px; }
+.bb-annot__mark::after{ top:3px; right:-4px; bottom:3px; left:-4px; }
+.bb-annot__leader{
+  flex:none;
+  width:clamp(18px, 2vw, 42px);
+  height:1px;
+  background:var(--green);
+  transform:scale(0, 1);
+  transform-origin:0% 50%;
+  transition:transform .5s cubic-bezier(.2, .7, .25, 1);
+}
+.bb-annot__card{
+  flex:1 1 auto;
+  min-width:0;
+  padding:12px 14px 14px;
+  background:var(--paper);
+  border:1px solid var(--hairline);
+  opacity:0;
+  transform:translate3d(0, 10px, 0);
+  transition:opacity .42s ease, transform .42s cubic-bezier(.2, .7, .25, 1);
+}
+.bb-annot__no{ margin:0 0 6px; color:var(--green); font-size:11px; font-weight:600; letter-spacing:.14em; }
+.bb-annot__title{ margin:0; font-size:clamp(13px, .78vw, 17px); font-weight:600; line-height:1.25; letter-spacing:-.005em; }
+.bb-annot__text{ margin:5px 0 0; color:var(--ink-muted); font-size:clamp(11.5px, .677vw, 15px); line-height:1.4; }
+.bb-annot[data-shown="true"] .bb-annot__mark{ opacity:1; transform:none; transition-delay:0s; }
+.bb-annot[data-shown="true"] .bb-annot__leader{ transform:scale(1, 1); transition-delay:.06s; }
+.bb-annot[data-shown="true"] .bb-annot__card{ opacity:1; transform:none; transition-delay:.12s; }
+.bb-annot:nth-child(2)[data-shown="true"] .bb-annot__mark{ transition-delay:.07s; }
+.bb-annot:nth-child(2)[data-shown="true"] .bb-annot__leader{ transition-delay:.13s; }
+.bb-annot:nth-child(2)[data-shown="true"] .bb-annot__card{ transition-delay:.19s; }
+.bb-annot:nth-child(3)[data-shown="true"] .bb-annot__mark{ transition-delay:.14s; }
+.bb-annot:nth-child(3)[data-shown="true"] .bb-annot__leader{ transition-delay:.2s; }
+.bb-annot:nth-child(3)[data-shown="true"] .bb-annot__card{ transition-delay:.26s; }
+
+@media (max-width:1150px){
+  .bb-solutions__track{ height:auto; }
+  .bb-solutions__stage{ position:static; height:auto; padding-block:0; }
+  .bb-solutions__figure{ display:block; height:auto; }
+  .bb-solutions__frame{ overflow:visible; }
+  .bb-solutions__image{ height:auto; aspect-ratio:16 / 9; }
+  .bb-scene{ position:static; opacity:1 !important; }
+  .bb-scene--in{ margin-top:var(--gap-block-media); }
+  .bb-scene__view{ position:relative; inset:auto; transform:none !important; }
+  .bb-disclosure--scene{ display:block; margin-top:12px; color:var(--ink-muted); font-size:12px; line-height:1.45; }
+  .bb-annots{
+    position:static;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:1px;
+    margin-top:20px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+  }
+  .bb-annot,
+  .bb-annot--left{ position:static; display:block; width:auto; max-width:none; transform:none; background:var(--paper); }
+  .bb-annot__mark,
+  .bb-annot__leader{ display:none; }
+  .bb-annot__card{ padding:16px; border:0; opacity:1; transform:none; }
+}
+@media (max-width:767px){
+  .bb-solutions__image{ aspect-ratio:3 / 2; }
+  .bb-annots{ display:block; gap:0; border:0; background:none; margin-top:16px; }
+  .bb-annot + .bb-annot{ margin-top:clamp(10px, 2.6vw, 16px); }
+  .bb-annot,
+  .bb-annot--left{ display:flex; width:100%; border:1px solid var(--rule); }
+  .bb-annot__card{ padding:clamp(24px, 2.2vw, 46px) clamp(22px, 2vw, 42px); }
+  .bb-annot__title{ font-size:17px; }
+  .bb-annot__text{ font-size:14px; }
+}
+
+/* wide: the white section ends on the lower edge of the picture, so the sheet rules end behind it
+   and are not seen running out into empty white space */
+@media (min-width:1151px){
+  .bb-solutions{ padding-bottom:0; }
+  .bb-solutions__stage{ padding-bottom:0; }
+}
+
+/* --- Request form: the kind of request (from the catalogue / made to measure or advice) ------ */
+.bb-form__type{ margin:0; padding:0; border:0; min-width:0; }
+.bb-form__type > legend{ padding:0; margin-bottom:var(--gap-label-title); }
+.bb-picker__toggle[aria-invalid="true"]{ border-color:#a33a2a; }
+
+/* the closed list shows its prompt in the same size as the text typed into the other fields */
+.bb-picker__toggle:not(.is-filled) .bb-picker__label,
+.bb-picker__toggle.is-filled .bb-picker__label{ font-size:inherit; }
+
+/* the form speaks in two sizes only, the two of the design system:
+   the text size of the page (--lede-fs) for everything read or typed, the size of the section labels (--label-fs)
+   for the capital captions */
+.bb-pick__summary,
+.bb-picker__summary span,
+.bb-pick__count,
+.bb-picker__clear,
+.bb-picker__close,
+.bb-picker__done,
+.bb-field__error,
+.bb-form__status{ font-size:var(--lede-fs); }
+
+/* the contacts: one rule above each row, all of the same length, none below the last
+   (the facts of "Message from the Founder" on imholz.at). Before, the rule above the list was drawn
+   on the list itself, which has an inner margin, so it ran longer than the others, and the last row
+   kept a rule below it. */
+.bb-contact__facts{ padding-right:0; border-top:0; }
+.bb-contact__facts > div{ border-bottom:0; border-top:1px solid var(--hairline-soft); padding-right:var(--rule-inset); }
+
+
+/* the fields are tall enough to be hit with a finger (44 px at least) and to breathe */
+.bb-field__input:not(textarea),
+.bb-picker__toggle{ min-height:clamp(44px, 2.5vw, 52px); box-sizing:border-box; }
+.bb-field__input:not(textarea),
+.bb-picker__toggle{ padding-block:0; display:flex; align-items:center; }
+.bb-field__input:not(textarea){ display:block; }
+.bb-picker__toggle{ justify-content:space-between; }
+textarea.bb-field__input{ padding-block:clamp(12px, .9vw, 16px); }
+
+/* the kind of request: the pills of the "For whom" block of imholz.at, each one a radio button */
+.bb-form__type .bb-pills{ margin-top:0; }
+.bb-form__type .bb-pill{ position:relative; display:inline-flex; align-items:center; min-height:44px; font-size:var(--lede-fs); }
+.bb-pill__input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
+.bb-pill:has(.bb-pill__input:focus-visible){ outline:2px solid var(--green); outline-offset:3px; }
+
+/* lines run to a sensible length and never leave a lone word or a one-letter word at the end of a line */
+.bb-copy--work,
+.bb-copy--section,
+.bb-copy--card,
+.bb-annot__text{ text-wrap:pretty; }
+.bb-copy--work{ max-width:22em; }
+
+/* one height for every field of the form: the inputs and the closed list use the same variable */
+.bb-form{ --field-h:clamp(44px, 2.5vw, 52px); }
+.bb-field__input:not(textarea),
+.bb-picker__toggle{ height:var(--field-h); min-height:var(--field-h); box-sizing:border-box; }
+.bb-field__input,
+.bb-picker__toggle{ border:1px solid rgba(18, 18, 18, .18); background:var(--paper); line-height:1.3; }
+.bb-field__input:hover,
+.bb-picker__toggle:hover{ border-color:rgba(18, 18, 18, .34); }
+.bb-field__input:focus,
+.bb-picker__toggle:focus-visible,
+.bb-picker--open .bb-picker__toggle{ border-color:var(--green); }
+.bb-field__input[aria-invalid="true"],
+.bb-picker__toggle[aria-invalid="true"]{ border-color:#a33a2a; }
+
+/* the request on narrower screens: the form uses the whole width of the column (the same edges as the text above it),
+   with a smaller inner margin, so that the fields are not squeezed */
+@media (max-width:1150px){
+  .bb-form{ margin-left:0; margin-right:0; width:auto; max-width:none; }
+}
+@media (max-width:640px){
+  .bb-form{ padding:18px 14px; }
+  .bb-form__grid{ grid-template-columns:minmax(0, 1fr); }
+  .bb-contact__facts{ max-width:none; }
+}
+
+/* the service tiles on narrower screens, as the "Where We Work" tiles of imholz.at: one column, the text above and the drawing
+   under it, as wide as the tile itself and pressed into its lower right corner */
+@media (max-width:900px){
+  .bb-card__art{
+    flex-shrink:0;
+    align-self:flex-end;
+    width:calc((100% + 2 * var(--work-px)) * .94);
+    max-width:none;
+    margin:clamp(-24px, -4vw, -12px) calc(-1 * var(--work-px)) calc(-1 * var(--work-py)) auto;
+  }
+}
+@media (max-width:767px){
+  .bb-work-grid{ grid-template-columns:minmax(0, 1fr); row-gap:clamp(14px, 3vw, 24px); }
+}
+
+/* the drawing at the foot of the page only decorates: it lies over the lower links of the footer, so it must not catch the pointer */
+.bb-site-footer__art{ pointer-events:none; }
+
+/* the ring of the keyboard focus around the ticks: no hard outline, a soft glow (the site never had a frame there) */
+.bb-pick__main:focus-visible ~ .bb-pick__box,
+.bb-pick__check:focus-visible ~ .bb-pick__box{ outline:0; box-shadow:0 0 0 3px rgba(1, 67, 53, .18); }
+.bb-pill:has(.bb-pill__input:focus-visible){ outline:0; box-shadow:0 0 0 3px rgba(1, 67, 53, .18); }
+
+/* inside the opened list: one weight and one size for what is read, one for the captions (as the labels of the form) */
+.bb-pick__group-title{ font-weight:400; }
+.bb-pick__name{ font-weight:400; }
+.bb-pick__main:checked ~ .bb-pick__name,
+.bb-pick__check:checked ~ .bb-pick__name{ font-weight:500; }
+.bb-pick__count{ font-weight:400; }
+.bb-chip span{ font-weight:400; }
+
+/* the envelope is cut to its own outline, so the space to the edge of the button and to the text is the space of the button
+   (before, the picture carried an empty margin of its own, and the gaps were not equal) */
+.bb-mail-button__icon{ width:1.25em; height:calc(1.25em * 13.4 / 19.4); }
+.bb-mail-button__icon--location,
+.bb-mail-button__icon--phone,
+.bb-mail-button__icon--linkedin{ height:1.25em; }
+
+/* the button: the icon and the text stand closer to each other than to the edge of the button */
+.bb-mail-button{ gap:.6em; padding:.95em 1.3em; }
+
+/* "Hotovo" is a button of the site (the black one, as "Odeslat poptávku"), not an outlined tab: solid at rest, outlined under the cursor */
+.bb-picker__close{
+  min-height:44px;
+  padding:.95em 1.3em;
+  border:1px solid var(--ink);
+  background:var(--ink);
+  color:var(--paper);
+  font-size:clamp(13px, .79vw, 17px);
+  font-weight:500;
+  line-height:1.2;
+  letter-spacing:.01em;
+  transition:background-color .28s ease, color .28s ease;
+}
+.bb-picker__close:hover,
+.bb-picker__close:focus-visible{ background:none; color:var(--ink); }
+
+/* the chips: the same soft focus as the ticks and the tabs, not a hard frame */
+.bb-chip input:focus-visible + span{ outline:0; box-shadow:0 0 0 3px rgba(1, 67, 53, .18); }
+
+/* the opened list: from the frame to the first and the last choice the space is larger than between the choices */
+.bb-pick-list{ padding-block:clamp(22px, 1.7vw, 34px); }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick-list{ padding-block:32px; }
+}
+
+/* the opened list: the space at the top and the foot is a little larger than between the choices, not much */
+.bb-pick-list{ padding-block:clamp(15px, 1.15vw, 22px); }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick-list{ padding-block:23px; }
+}
+
+/* the opened list: the space at the top and the foot is only a little larger than between the choices */
+.bb-pick-list{ padding-block:clamp(13px, .95vw, 19px); }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick-list{ padding-block:19px; }
+}
+
+/* the concrete choices (the species, the products) are details of a direction: they are set in the size of the captions of the
+   system, a step under the names of the directions they belong to */
+.bb-chip span,
+.bb-chip input:checked + span{ font-size:var(--label-fs); }
+
+/* the concrete choices are set in the same size as the names of the directions (the text size of the system) */
+.bb-chip span,
+.bb-chip input:checked + span{ font-size:var(--lede-fs); }
+
+/* the opened list: the space at the top and the foot is practically the space between the choices */
+.bb-pick-list{ padding-block:clamp(11px, .8vw, 16px); }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick-list{ padding-block:16px; }
+}
+
+/* no ring around the ticks, the tabs and the chips, whoever (mouse or keyboard) has chosen them: the keyboard is shown by the
+   text (an underline) or by the border taking the green, the same that the pointer does */
+.bb-pick__main:focus-visible ~ .bb-pick__box,
+.bb-pick__check:focus-visible ~ .bb-pick__box{ outline:0; box-shadow:none; }
+.bb-pick__head:has(.bb-pick__main:focus-visible) .bb-pick__name,
+.bb-pick__head:has(.bb-pick__check:focus-visible) .bb-pick__name{ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.28em; }
+.bb-pill:has(.bb-pill__input:focus-visible){ outline:0; box-shadow:none; border-color:var(--green); }
+.bb-chip input:focus-visible + span{ outline:0; box-shadow:none; border-color:var(--green); }
+
+/* the opened list on narrow and touch screens: the rows are the smallest a finger hits well (44 px), and the space at the top and
+   the foot follows the space between the rows */
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick__head,
+  .bb-pick__advice{ min-height:44px; }
+  .bb-pick-list{ padding-block:13px; }
+}
+
+/* the keyboard is shown only by the border of the empty tick turning dark: nothing is drawn around it and under the text */
+.bb-pick__head:has(.bb-pick__main:focus-visible) .bb-pick__name,
+.bb-pick__head:has(.bb-pick__check:focus-visible) .bb-pick__name{ text-decoration:none; }
+.bb-pick__main:not(:checked):focus-visible ~ .bb-pick__box,
+.bb-pick__check:not(:checked):focus-visible ~ .bb-pick__box{ border-color:var(--ink); }
+
+/* the opened list: the choices stand close to each other, the same on a computer and on a phone */
+.bb-pick__head,
+.bb-pick__advice{ min-height:0; padding-top:.6em; padding-bottom:.6em; }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick__head,
+  .bb-pick__advice{ min-height:38px; padding-top:.6em; padding-bottom:.6em; }
+}
+.bb-pick-list{ padding-block:8px; }
+
+/* what really set the height of a row of the list was the (hidden) arrow button at its end: it takes the height of the row now,
+   and the row is as high as its own text and its own small padding */
+.bb-pick__toggle{ height:auto; align-self:stretch; }
+.bb-pick__head,
+.bb-pick__advice{ padding-top:8px; padding-bottom:8px; }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick__head,
+  .bb-pick__advice{ min-height:38px; padding-top:8px; padding-bottom:8px; }
+  .bb-pick__toggle{ width:44px; height:auto; }
+}
+.bb-pick-list{ padding-block:6px; }
+.bb-pick-list{ padding-block:8px; }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick-list{ padding-block:10px; }
+}
+
+/* the chosen direction keeps the weight of the species under it: the choice is shown by the green tick, not by a heavier name,
+   so the name and the chips are seen as one size */
+.bb-pick__main:checked ~ .bb-pick__name,
+.bb-pick__check:checked ~ .bb-pick__name{ font-weight:400; }
+
+/* the first group of a direction no longer sticks to the name of the direction: the space under the name is the space between the groups */
+.bb-pick__items{ padding-top:calc(var(--gap-para) - 8px); }
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick__items{ padding-top:3px; }
+}
+
+/* =========================================================================================================
+   THE OPENED LIST — one system of spaces
+   One unit, --u, and everything inside the list is a multiple of it:
+     between the choices ......... 2u      (the padding of a row is u above and u below)
+     from the frame to the choice  2.3u    (at the top, the foot and the sides: a little more than between the choices)
+     under a direction, between the groups, before the next direction ........ 2u
+     from the caption of a group to its chips, between the chips ............ u
+   ========================================================================================================= */
+.bb-pick-list{
+  --u:clamp(8px, .6vw, 12px);
+  padding:calc(var(--u) * 1.3) calc(var(--u) * 2.3);
+}
+@media (max-width:1150px), (pointer:coarse){
+  .bb-pick-list{ --u:10px; }
+}
+.bb-pick__head,
+.bb-pick__advice{ min-height:0; padding-top:var(--u); padding-bottom:var(--u); }
+.bb-pick__items{ padding-top:var(--u); padding-bottom:var(--u); }
+.bb-pick__group + .bb-pick__group{ margin-top:calc(var(--u) * 2); }
+.bb-pick__group-title{ margin:0 0 var(--u); }
+.bb-chips{ gap:var(--u); }
+
+/* the species are boxed words, and a box makes a word look larger than the same word without one: a touch smaller, so that
+   the names of the directions and the species are seen as one size */
+.bb-chip span,
+.bb-chip input:checked + span{ font-size:calc(var(--lede-fs) * .94); }
+
+/* the opened list, the last touch of the system: the frame is as far from the first and the last choice as the choices are from each
+   other (2u), the chosen direction is bold again, and the species are a little smaller than the bold name next to them */
+.bb-pick-list{ padding:var(--u) calc(var(--u) * 2); }
+.bb-pick__main:checked ~ .bb-pick__name,
+.bb-pick__check:checked ~ .bb-pick__name{ font-weight:600; }
+.bb-chip span,
+.bb-chip input:checked + span{ font-size:calc(var(--lede-fs) * .9); }
+
+/* =========================================================================================================
+   THE OPENED LIST — the spaces, final
+     G = 1.7u : between the choices, and the same inside a choice (under the name, between the groups, before the next choice)
+     0.85u    : from a caption to its chips and between the chips
+     3u       : from the frame to the first and the last choice and to the sides, larger than G
+   ========================================================================================================= */
+.bb-pick-list{ padding:calc(var(--u) * 2.15) calc(var(--u) * 3); }
+.bb-pick__head,
+.bb-pick__advice{ min-height:0; padding-top:calc(var(--u) * .85); padding-bottom:calc(var(--u) * .85); }
+.bb-pick__items{ padding-top:calc(var(--u) * .85); padding-bottom:calc(var(--u) * .85); }
+.bb-pick__group + .bb-pick__group{ margin-top:calc(var(--u) * 1.7); }
+.bb-pick__group-title{ margin:0 0 calc(var(--u) * .85); }
+.bb-chips{ gap:calc(var(--u) * .85); }
+
+/* the frame is a little farther from the choices than they are from each other: 2.05u against 1.7u */
+.bb-pick-list{ padding:calc(var(--u) * 1.2) calc(var(--u) * 2.05); }

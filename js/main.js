@@ -244,7 +244,6 @@
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || form).querySelectorAll(sel)); };
 
   var picks = $$('.bb-pick');
-  var advice = $('.bb-pick__check');
   var hidden = document.getElementById('f-summary');
   var status = $('.bb-form__status');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -264,13 +263,13 @@
   function plural(n) { return n === 1 ? 'oblast' : (n >= 2 && n <= 4 ? 'oblasti' : 'oblastí'); }
 
   function renderPicker(out) {
-    var n = out.length + (advice.checked ? 1 : 0);
+    var n = out.length;
     pickLabel.textContent = n ? 'Vybráno: ' + n + ' ' + plural(n) : 'Vyberte, co vás zajímá';
     pickToggle.classList.toggle('is-filled', n > 0);
+    if (n) clearError(pickToggle);
     $$('.bb-picker__clear').forEach(function (b) { b.hidden = n === 0; });
     pickSum.textContent = '';
     var lines = [];
-    if (advice.checked) lines.push('Poradit s výběrem');
     out.forEach(function (o) { lines.push(o.head + (o.parts.length ? ': ' + o.parts.join('; ') : '')); });
     lines.forEach(function (t) {
       var l = document.createElement('span');
@@ -282,7 +281,6 @@
   function clearAll() {
     $$('.bb-pick__main').forEach(function (c) { c.checked = false; });
     $$('.bb-chip input').forEach(function (c) { c.checked = false; });
-    advice.checked = false;
     picks.forEach(function (p) { setOpen(p, false); });
     choice();
   }
@@ -323,13 +321,46 @@
       if (main.checked) out.push({ head: main.value, parts: parts, names: names });
     });
     var lines = out.map(function (o) { return o.head + (o.parts.length ? ' [' + o.parts.join('; ') + ']' : ''); });
-    if (advice.checked) lines.unshift(advice.value);
+    lines.unshift('Typ: ' + typeValue());
+    syncType();
     hidden.value = lines.join(' | ');
     renderPicker(out);
     return out;
   }
 
   function val(id) { return document.getElementById(id).value.trim(); }
+
+  /* ---- two kinds of request ----
+     "from the catalogue": the person knows what is needed, so the choice of materials is required and the message is not;
+     "made to measure / advice": the person describes the need, so the message is required and the choice is not. */
+  var msg = document.getElementById('f-msg');
+  var msgLabel = document.getElementById('lbl-msg');
+  var pickLegend = document.getElementById('lbl-pick');
+  var TYPES = {
+    'Podle katalogu': {
+      msgLabel: 'Zpráva', hint: 'Napište, co potřebujete: množství, rozměry, termín a místo dodání', rows: 5,
+      pickLabel: 'Co vás zajímá <span class="bb-field__req">*</span>'
+    },
+    'Na míru nebo poradit': {
+      msgLabel: 'Zpráva <span class="bb-field__req">*</span>', hint: 'Napište, co potřebujete: množství, rozměry, termín a místo dodání', rows: 5,
+      pickLabel: 'Co vás zajímá'
+    }
+  };
+  var shownType = '';
+  function typeValue() { return $('.bb-pill__input:checked').value; }
+  function syncType() {
+    var type = typeValue();
+    if (type === shownType) return;
+    shownType = type;
+    $$('.bb-pill').forEach(function (p) { p.classList.toggle('bb-pill--active', $('.bb-pill__input', p).checked); });
+    var t = TYPES[type];
+    msgLabel.innerHTML = t.msgLabel;
+    msg.placeholder = t.hint;
+    msg.rows = t.rows;
+    pickLegend.innerHTML = t.pickLabel;
+    clearError(msg);
+    clearError(pickToggle);
+  }
 
 
   form.addEventListener('change', function (e) {
@@ -371,7 +402,7 @@
     el.removeAttribute('aria-invalid');
     if (p) { p.textContent = ''; p.hidden = true; }
   }
-  $$('input').forEach(function (el) {
+  $$('input, textarea').forEach(function (el) {
     el.addEventListener('input', function () { clearError(el); });
     el.addEventListener('change', function () { clearError(el); });
   });
@@ -402,6 +433,19 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!validContacts()) return;
+    if (typeValue() === 'Podle katalogu') {
+      if (!choice().length) {
+        showError(pickToggle, 'Vyberte prosím alespoň jednu oblast z katalogu, nebo přepněte na „Na míru nebo poradit“.');
+        pickToggle.focus();
+        return;
+      }
+    } else if (!msg.value.trim()) {
+      showError(msg, 'Popište prosím svůj požadavek, abychom pro vás mohli připravit nabídku na míru.');
+      msg.focus();
+      return;
+    }
+    clearError(msg);
+    clearError(pickToggle);
     var consent = $('.bb-consent input');
     if (!consent.checked) {
       showError(consent, 'Pro odeslání potřebujeme váš souhlas se zpracováním údajů.');
@@ -419,4 +463,96 @@
   $$('.bb-picker__clear').forEach(function (b) { b.addEventListener('click', clearAll); });
 
   choice();
+})();
+
+/* "Váš projekt": two scenes on one pinned frame. The outside is driven into the glazing, the inside
+   comes up through it; the notes are placed from the pictures' own coordinates (data-u / data-v).
+   The same motion as the Announcement of imholz.at. */
+(function () {
+  var track = document.querySelector('.bb-solutions__track');
+  var stage = document.querySelector('.bb-solutions__stage');
+  var frame = document.querySelector('.bb-solutions__frame');
+  var out = document.querySelector('.bb-scene--out');
+  var inn = document.querySelector('.bb-scene--in');
+  if (!track || !stage || !frame || !out || !inn) return;
+  var outView = out.querySelector('.bb-scene__view');
+  var inView = inn.querySelector('.bb-scene__view');
+  var outImg = out.querySelector('.bb-scene__image');
+  var inImg = inn.querySelector('.bb-scene__image');
+  var notesOut = Array.prototype.slice.call(out.querySelectorAll('.bb-annot'));
+  var notesIn = Array.prototype.slice.call(inn.querySelectorAll('.bb-annot'));
+  var pinned = window.matchMedia('(min-width: 1151px)');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var queued = false;
+  var DOOR_U = 0.540, DOOR_V = 0.640;
+  var OUT_SETTLE = 0.055, SETTLED = 0.052, NOTES_OUT = 0.045, GO = 0.409, DISS0 = 0.570, DISS1 = 0.668, DEEP = 0.795, NOTES_IN = 0.805;
+  var PUSH = 2.05, IN_FROM = 0.94, IN_TO = 1.10;
+
+  function accel(t) { return Math.pow(t, 1.9); }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+  function span(p, a, b) { if (p <= a) return 0; if (p >= b) return 1; return (p - a) / (b - a); }
+  function show(list, on) { list.forEach(function (n) { if (on) n.setAttribute('data-shown', 'true'); else n.removeAttribute('data-shown'); }); }
+
+  function door() {
+    var fw = frame.clientWidth, fh = frame.clientHeight;
+    var iw = outImg.naturalWidth || 1672, ih = outImg.naturalHeight || 941;
+    if (!fw || !fh) return { x: DOOR_U, y: DOOR_V };
+    var s = Math.max(fw / iw, fh / ih);
+    var dw = iw * s, dh = ih * s;
+    var ox = (fw - dw) / 2, oy = (fh - dh) / 2;
+    var x = (ox + DOOR_U * dw) / fw, y = (oy + DOOR_V * dh) / fh;
+    return { x: Math.min(Math.max(x, 0.06), 0.94), y: Math.min(Math.max(y, 0.06), 0.94) };
+  }
+  function put(notes, img, fallbackW, cx, cy, scale) {
+    var fw = frame.clientWidth, fh = frame.clientHeight;
+    if (!fw || !fh) return;
+    var iw = img.naturalWidth || fallbackW, ih = img.naturalHeight || 941;
+    var s = Math.max(fw / iw, fh / ih), dw = iw * s, dh = ih * s, ox = (fw - dw) / 2, oy = (fh - dh) / 2;
+    notes.forEach(function (n) {
+      var u = parseFloat(n.getAttribute('data-u')), v = parseFloat(n.getAttribute('data-v'));
+      if (isNaN(u) || isNaN(v)) return;
+      var x = cx + (ox + u * dw - cx) * scale, y = cy + (oy + v * dh - cy) * scale;
+      n.style.setProperty('--x', Math.min(Math.max(x / fw * 100, 4), 96).toFixed(2) + '%');
+      n.style.setProperty('--y', Math.min(Math.max(y / fh * 100, 14), 86).toFixed(2) + '%');
+    });
+  }
+  function place(scale) { var d = door(); put(notesOut, outImg, 1672, d.x * frame.clientWidth, d.y * frame.clientHeight, scale); }
+  function placeIn(scale) { put(notesIn, inImg, 1670, frame.clientWidth * 0.5, frame.clientHeight * 0.56, scale); }
+
+  function rest() {
+    place(1); placeIn(1);
+    outView.style.removeProperty('--view-scale');
+    inView.style.setProperty('--view-scale', '1');
+    inn.style.setProperty('--in-on', '1');
+    show(notesOut, true); show(notesIn, true);
+  }
+  function paint() {
+    queued = false;
+    if (!pinned.matches || reduce.matches) { rest(); return; }
+    var travel = track.offsetHeight - stage.offsetHeight;
+    if (travel <= 0) { rest(); return; }
+    var p = -track.getBoundingClientRect().top / travel;
+    if (p < 0) p = 0;
+    if (p > 1) p = 1;
+    var d = door();
+    out.style.setProperty('--door-x', (d.x * 100).toFixed(2) + '%');
+    out.style.setProperty('--door-y', (d.y * 100).toFixed(2) + '%');
+    var settle = 1 + OUT_SETTLE * (1 - span(p, 0, SETTLED)), push = 1 + PUSH * accel(span(p, GO, DISS1));
+    outView.style.setProperty('--view-scale', (settle * push).toFixed(4));
+    place(settle * push);
+    inn.style.setProperty('--in-on', smooth(span(p, DISS0, DISS1)).toFixed(4));
+    var k = span(p, DISS0, DEEP), inScale = IN_FROM + (IN_TO - IN_FROM) * k;
+    inView.style.setProperty('--view-scale', inScale.toFixed(4));
+    placeIn(inScale);
+    show(notesOut, p >= NOTES_OUT && p < GO);
+    show(notesIn, p >= NOTES_IN);
+  }
+  function onScroll() { if (queued) return; queued = true; window.requestAnimationFrame(paint); }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  (pinned.addEventListener ? pinned.addEventListener.bind(pinned, 'change') : pinned.addListener.bind(pinned))(onScroll);
+  if (!outImg.complete) outImg.addEventListener('load', onScroll);
+  if (!inImg.complete) inImg.addEventListener('load', onScroll);
+  paint();
 })();
