@@ -3108,3 +3108,19 @@ textarea.bb-field__input{ padding-block:clamp(12px, .9vw, 16px); }
 .bb-pick__main:checked:focus-visible ~ .bb-pick__box,
 .bb-pick__check:checked:focus-visible ~ .bb-pick__box{ box-shadow:inset 0 0 0 2px #fff; }
 .bb-pill:has(.bb-pill__input:focus-visible){ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.28em; }
+
+/* ---- running line of certificates and standards, under the figures (as on imholz-group.com) --------------------- */
+.bb-ticker{ display:flex; overflow:hidden; border-block:1px solid var(--hairline-soft);
+  background:repeating-linear-gradient(135deg, rgba(18,18,18,.016) 0 1px, transparent 1px 11px), var(--paper-warm); }
+.bb-ticker__list{ display:flex; flex:0 0 auto; min-width:100%; margin:0; padding:0; list-style:none; animation:bb-ticker 45s linear infinite; }
+.bb-ticker__item{ display:flex; align-items:center; gap:clamp(24px, 2.4vw, 52px); padding:clamp(16px, 1.25vw, 28px) 0 clamp(16px, 1.25vw, 28px) clamp(24px, 2.4vw, 52px);
+  color:var(--green); font-size:clamp(18px, 1.45vw, 32px); font-weight:500; letter-spacing:-.01em; white-space:nowrap; }
+.bb-ticker__item:nth-child(even){ color:var(--ink-muted); }
+.bb-ticker__item::after{ content:"\2217"; color:var(--green); }
+.bb-ticker:hover .bb-ticker__list{ animation-play-state:paused; }
+@keyframes bb-ticker{ to{ transform:translateX(-100%); } }
+@media (prefers-reduced-motion:reduce){
+  .bb-ticker__list{ animation:none; flex:1 1 auto; flex-wrap:wrap; }
+  .bb-ticker__list[aria-hidden]{ display:none; }
+  .bb-ticker__item:nth-child(n+7){ display:none; }
+}
