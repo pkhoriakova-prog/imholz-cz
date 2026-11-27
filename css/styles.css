@@ -1165,10 +1165,11 @@ body > main{
   .bb-foot-cell:nth-child(3){ border-left:1px solid rgba(255,255,255,.07); }
 }
 
+/* two columns on the phone as well: the menu on the left, contacts and documents on the right */
 @media (max-width:620px){
-  .bb-site-footer__grid{ grid-template-columns:1fr; }
-  .bb-foot-cell{ padding-inline:0; }
-  .bb-foot-cell:nth-child(3){ border-left:none; border-top:1px solid rgba(255,255,255,.07); }
+  .bb-foot-cell:nth-child(2){ padding-left:0; }
+  .bb-foot-cell:nth-child(3){ padding-left:12px; padding-right:0; }
+  .bb-foot-list a{ overflow-wrap:anywhere; }
 }
 
 @media (max-width:768px){
